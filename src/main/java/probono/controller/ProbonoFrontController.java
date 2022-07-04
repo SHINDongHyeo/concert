@@ -8,14 +8,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import probono.model.ProbonoService;
-import probono.model.dto.ActivistDTO;
-import probono.model.dto.RecipientDTO;
+import concert.model.ConcertService;
+import concert.model.dto.ActivistDTO;
+import concert.model.dto.SingerDTO;
 
 @WebServlet("/probono")
 public class ProbonoFrontController extends HttpServlet {
 	
-	private static ProbonoService probonoService = ProbonoService.getInstance();
+	private static ConcertService probonoService = ConcertService.getInstance();
 	
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
@@ -198,7 +198,7 @@ public class ProbonoFrontController extends HttpServlet {
 		public void recipient(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 			String url = "showError.jsp";
 			try {
-				RecipientDTO r = probonoService.getRecipient(request.getParameter("recipientId"));
+				SingerDTO r = probonoService.getRecipient(request.getParameter("recipientId"));
 				if(r != null) {
 					request.setAttribute("recipient", r);
 					url = "recipient/recipientDetail.jsp";
@@ -225,7 +225,7 @@ public class ProbonoFrontController extends HttpServlet {
 			//해킹등으로 불합리하게 요청도 될수 있다는 가정하에 모든 데이터가 제대로 전송이 되었는지를 검증하는 로직
 			if(id != null && id.length() !=0 && name != null) {
 			
-			RecipientDTO recipient = new RecipientDTO(id, name, pw, receiveHopeContent);
+			SingerDTO recipient = new SingerDTO(id, name, pw, receiveHopeContent);
 				try{
 					boolean result = probonoService.addRecipient(recipient);
 					if(result){

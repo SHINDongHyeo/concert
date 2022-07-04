@@ -7,12 +7,12 @@ CREATE TABLE activist (
 ); */
 package probono.model.dto;
 
+import concert.model.entity.Concert;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import probono.model.entity.Activist;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -35,8 +35,8 @@ public class ActivistDTO {
 		return builder.toString();
 	}
 
-	public Activist toEntity() {
-		return Activist.builder().id(id).name(name).password(password).major(major).build();
+	public Concert toEntity() {
+		return Concert.builder().id(id).name(name).password(password).major(major).build();
 	}
 
 }

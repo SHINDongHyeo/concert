@@ -13,12 +13,12 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import concert.model.dto.ConcertSingerDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import probono.model.dto.ProbonoProjectDTO;
 
 @NoArgsConstructor
 @AllArgsConstructor
