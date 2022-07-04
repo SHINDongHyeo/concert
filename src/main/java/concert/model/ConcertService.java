@@ -1,54 +1,54 @@
-﻿package probono.model;
+﻿package concert.model;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import concert.model.dto.ActivistDTO;
+import concert.model.dto.ConcertSingerDTO;
+import concert.model.dto.OrderDTO;
+import concert.model.dto.SingerDTO;
 import probono.exception.MessageException;
 import probono.exception.NotExistException;
-import probono.model.dto.ActivistDTO;
-import probono.model.dto.ProbonoDTO;
-import probono.model.dto.ProbonoProjectDTO;
-import probono.model.dto.RecipientDTO;
 
-public class ProbonoService {
+public class ConcertService {
 
-	private static ProbonoService instance = new ProbonoService();
+	private static ConcertService instance = new ConcertService();
 
-	private ProbonoService() {
+	private ConcertService() {
 	}
 
-	public static ProbonoService getInstance() {
+	public static ConcertService getInstance() {
 		return instance;
 	}
 	
 	private static ActivistDAO activistDAO = ActivistDAO.getInstance();
-	private static ProbonoDAO probonoDAO = ProbonoDAO.getInstance();
-	private static ProbonoProjectDAO probonoProjectDAO = ProbonoProjectDAO.getInstance();
-	private static RecipientDAO recipientDAO = RecipientDAO.getInstance();
+	private static OrderDAO probonoDAO = OrderDAO.getInstance();
+	private static ConcertSingerDAO probonoProjectDAO = ConcertSingerDAO.getInstance();
+	private static SingerDAO recipientDAO = SingerDAO.getInstance();
 	
 	//Probono - CRUD
 	public static void notExistProbono(String probonoId) throws NotExistException, SQLException{
-		ProbonoDTO probono = probonoDAO.getProbono(probonoId);
+		OrderDTO probono = probonoDAO.getProbono(probonoId);
 		if(probono == null){
 			throw new NotExistException("검색하진 재능기부 정보가 없습니다.");
 		}
 	}
 	
 	//모든 probono 정보 반환
-	public static ArrayList<ProbonoDTO> getAllProbonos() throws SQLException{
+	public static ArrayList<OrderDTO> getAllProbonos() throws SQLException{
 		return probonoDAO.getAllProbonos();
 	}
 	//probono id로 검색
-	public static ProbonoDTO getProbono(String probonoId) throws SQLException, NotExistException{
-		ProbonoDTO probono = probonoDAO.getProbono(probonoId);
+	public static OrderDTO getProbono(String probonoId) throws SQLException, NotExistException{
+		OrderDTO probono = probonoDAO.getProbono(probonoId);
 		if(probono == null){
 			throw new NotExistException("검색하신 재능기부 정보가 없습니다.");
 		}
 		return probono;
 	}
 	//새로운 probono 저장
-	public static boolean addProbono(ProbonoDTO probono) throws SQLException{
+	public static boolean addProbono(OrderDTO probono) throws SQLException{
 		return probonoDAO.addProbono(probono);
 	}
 	//기존 probono 수정
@@ -116,12 +116,12 @@ public class ProbonoService {
 	
 	//Recipient - CRUD
 	public static void notExistRecipient(String recipientId) throws NotExistException, SQLException{
-		RecipientDTO recipient = recipientDAO.getRecipient(recipientId);
+		SingerDTO recipient = recipientDAO.getRecipient(recipientId);
 		if(recipient == null){
 			throw new NotExistException("검색하는 재능 수해자가 미 존재합니다.");
 		}
 	}
-	public boolean addRecipient(RecipientDTO recipient) throws SQLException{
+	public boolean addRecipient(SingerDTO recipient) throws SQLException{
 		return recipientDAO.addRecipient(recipient);
 	}
 	public boolean updateRecipient(String recipientId, String receiveHopeContent) throws SQLException, NotExistException{
@@ -132,24 +132,24 @@ public class ProbonoService {
 		notExistRecipient(recipientId);
 		return recipientDAO.deleteRecipient(recipientId);
 	}
-	public RecipientDTO getRecipient(String recipientId) throws SQLException{
+	public SingerDTO getRecipient(String recipientId) throws SQLException{
 		return recipientDAO.getRecipient(recipientId);
 	}
-	public ArrayList<RecipientDTO> getAllRecipients() throws SQLException{
+	public ArrayList<SingerDTO> getAllRecipients() throws SQLException{
 		return recipientDAO.getAllRecipients();
 	}
 	
 	
 	//ProjectProjectDAO - CRUD
 	public static void notExistProbonoProject(int probonoProjectId) throws NotExistException, SQLException{
-		ProbonoProjectDTO probonoProject = probonoProjectDAO.getProbonoProject(probonoProjectId);
+		ConcertSingerDTO probonoProject = probonoProjectDAO.getProbonoProject(probonoProjectId);
 		if(probonoProject == null){
 			throw new NotExistException("검색하는 재능기부 프로젝트가 미 존재합니다.");
 		}
 	}
 	
 	//새로운 Probono Project 등록
-	public static boolean addProbonoProject(ProbonoProjectDTO probonoProject) throws SQLException{
+	public static boolean addProbonoProject(ConcertSingerDTO probonoProject) throws SQLException{
 		return probonoProjectDAO.addProbonoProject(probonoProject);
 	}
 	//존재하는 Probono Project의 재능 기부자 수정
@@ -171,8 +171,8 @@ public class ProbonoService {
 	}
 	
 	//특정 Probono Project 검색 
-	public static ProbonoProjectDTO getProbonoProject(int probonoProjectId) throws SQLException, NotExistException{
-		ProbonoProjectDTO probonoProject = probonoProjectDAO.getProbonoProject(probonoProjectId);
+	public static ConcertSingerDTO getProbonoProject(int probonoProjectId) throws SQLException, NotExistException{
+		ConcertSingerDTO probonoProject = probonoProjectDAO.getProbonoProject(probonoProjectId);
 		if(probonoProject == null){
 			throw new NotExistException("검색하는 재능기부 프로젝트가 미 존재합니다.");
 		}
@@ -180,8 +180,8 @@ public class ProbonoService {
 	}
 	
 	//모든 Probono Project 검색 
-	public ArrayList<ProbonoProjectDTO> getAllProbonoProjects() throws SQLException,NotExistException{
-		ArrayList<ProbonoProjectDTO> probonoProjectAll = probonoProjectDAO.getAllProbonoProjects();
+	public ArrayList<ConcertSingerDTO> getAllProbonoProjects() throws SQLException,NotExistException{
+		ArrayList<ConcertSingerDTO> probonoProjectAll = probonoProjectDAO.getAllProbonoProjects();
 		if(probonoProjectAll == null){
 			throw new NotExistException("검색하는 재능기부 프로젝트가 미 존재합니다.");
 		}
