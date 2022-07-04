@@ -1,4 +1,4 @@
-﻿package probono.model;
+﻿package concert.model;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -7,29 +7,27 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
-import probono.model.dto.ProbonoDTO;
-import probono.model.dto.RecipientDTO;
-import probono.model.entity.Recipient;
+import concert.model.dto.ConcertDTO;
+import probono.model.entity.Concert;
 import probono.model.util.PublicCommon;
 
-public class RecipientDAO {
-	
-	private static RecipientDAO instance = new RecipientDAO();
+public class ConcertDAO {
 
-	private RecipientDAO() {
-	}
+	private static ConcertDAO instance = new ConcertDAO();
 
-	public static RecipientDAO getInstance() {
+	private ConcertDAO() {}
+
+	public static ConcertDAO getInstance() {
 		return instance;
 	}
-	
-	public boolean addRecipient(RecipientDTO recipient) throws SQLException{
+
+	public boolean addConcert(ConcertDTO Concert) throws SQLException {
 		EntityManager em = PublicCommon.getEntityManager();
 		em.getTransaction().begin();
 		boolean result = false;
-		
+
 		try {
-			em.persist(recipient.toEntity());
+			em.persist(Concert.toEntity());
 			em.getTransaction().commit();
 
 			result = true;
@@ -38,40 +36,20 @@ public class RecipientDAO {
 			em.getTransaction().rollback();
 		} finally {
 			em.close();
+			em = null;
 		}
 		return result;
 	}
 
-	//수정 로직
-	// 프로젝트 명으로 내용 수정하기
-	public boolean updateRecipient(String recipientId, String receiveHopeContent) throws SQLException{
+	// 수정
+	// 기부자 id로 주요 기부 내용 수정하기
+	public boolean updateConcert(String activistId, String major) throws SQLException {
 		EntityManager em = PublicCommon.getEntityManager();
 		em.getTransaction().begin();
 		boolean result = false;
-		
+
 		try {
-			em.find(Recipient.class, recipientId).setReceiveHopeContent(receiveHopeContent);
-
-			em.getTransaction().commit();
-
-			result = true;
-		} catch (Exception e) {
-			em.getTransaction().rollback();
-		} finally {
-			em.close();
-		}
-		return result;
-	}
-
-
-	//삭제 로직
-	public boolean deleteRecipient(String recipientId) throws SQLException{
-		EntityManager em = PublicCommon.getEntityManager();
-		em.getTransaction().begin();
-		boolean result = false;
-		
-		try {
-			em.remove(em.find(Recipient.class, recipientId));
+			em.find(Concert.class, activistId).setMajor(major);
 
 			em.getTransaction().commit();
 
@@ -84,32 +62,58 @@ public class RecipientDAO {
 		return result;
 	}
 
-	public RecipientDTO getRecipient(String recipientId) throws SQLException{
+	// ??? 삭제
+	// sql - delete from Concert where activist_id=?
+	public boolean deleteConcert(String activistId) throws SQLException {
 		EntityManager em = PublicCommon.getEntityManager();
 		em.getTransaction().begin();
-		RecipientDTO recipient = null;
+		boolean result = false;
 
 		try {
-			Recipient r = em.find(Recipient.class, recipientId);
-			recipient = new RecipientDTO(r.getId(), r.getName(), r.getPassword(), r.getReceiveHopeContent());
+			em.remove(em.find(Concert.class, activistId));
+
+			em.getTransaction().commit();
+
+			result = true;
+		} catch (Exception e) {
+			em.getTransaction().rollback();
+			throw e;
+		} finally {
+			em.close();
+		}
+		return result;
+	}
+
+	// id로 해당 기부자의 모든 정보 반환
+	public ConcertDTO getConcert(String activistId) throws SQLException {
+		EntityManager em = PublicCommon.getEntityManager();
+		em.getTransaction().begin();
+		ConcertDTO Concert = null;
+
+		try {
+			Concert a = em.find(Concert.class, activistId);
+			Concert = new ConcertDTO(a.getId(), a.getName(), a.getPassword(), a.getMajor());
 		} catch (Exception e) {
 			em.getTransaction().rollback();
 		} finally {
 			em.close();
 		}
-		return recipient;
+		return Concert;
 	}
 
-	public ArrayList<RecipientDTO> getAllRecipients() throws SQLException{
+	// ???모든 기부자 검색해서 반환
+	// sql - select * from Concert
+	@SuppressWarnings("unchecked")
+	public ArrayList<ConcertDTO> getAllConcerts() throws SQLException {
 		EntityManager em = PublicCommon.getEntityManager();
-		ArrayList<RecipientDTO> alist = new ArrayList<>();
-		List list = null;
+		List<Concert> list = null;
+		ArrayList<ConcertDTO> alist = new ArrayList<>();
 		try {
-			list = em.createNativeQuery("select * from Recipient").getResultList();
+			list = em.createNativeQuery("SELECT * FROM Concert").getResultList();
 			Iterator it = list.iterator();
 			while(it.hasNext()) {
 				Object[] obj = (Object[]) it.next();
-				alist.add(new RecipientDTO(String.valueOf(obj[0]), String.valueOf(obj[1]), String.valueOf(obj[2]), String.valueOf(obj[3])));
+				alist.add(new ConcertDTO(String.valueOf(obj[0]), String.valueOf(obj[1]), String.valueOf(obj[2]), String.valueOf(obj[3])));
 			}
 		} catch (Exception e) {
 			em.getTransaction().rollback();
