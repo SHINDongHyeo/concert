@@ -7,9 +7,9 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
+import concert.model.entity.Probono;
 import probono.model.dto.ActivistDTO;
 import probono.model.dto.ProbonoDTO;
-import probono.model.entity.Probono;
 import probono.model.util.PublicCommon;
 
 public class ProbonoDAO {

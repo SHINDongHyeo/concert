@@ -7,9 +7,9 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
+import concert.model.entity.ConcertSinger;
 import probono.model.dto.ProbonoDTO;
 import probono.model.dto.ProbonoProjectDTO;
-import probono.model.entity.ProbonoProject;
 import probono.model.util.PublicCommon;
 
 public class ProbonoProjectDAO {
@@ -51,7 +51,7 @@ public class ProbonoProjectDAO {
 		boolean result = false;
 
 		try {
-			manager.find(ProbonoProject.class, projectId).setActivistId(activistId);
+			manager.find(ConcertSinger.class, projectId).setActivistId(activistId);
 
 			manager.getTransaction().commit();
 
@@ -72,7 +72,7 @@ public class ProbonoProjectDAO {
 		boolean result = false;
 
 		try {
-			manager.find(ProbonoProject.class, probonoProjectId).setReceiveId(receiveId);
+			manager.find(ConcertSinger.class, probonoProjectId).setReceiveId(receiveId);
 
 			manager.getTransaction().commit();
 
@@ -93,7 +93,7 @@ public class ProbonoProjectDAO {
 		boolean result = false;
 
 		try {
-			manager.remove(manager.find(ProbonoProject.class, probonoProjectId));
+			manager.remove(manager.find(ConcertSinger.class, probonoProjectId));
 
 			manager.getTransaction().commit();
 
@@ -113,7 +113,7 @@ public class ProbonoProjectDAO {
 		ProbonoProjectDTO probonoProject = null;
 
 		try {
-			ProbonoProject p = manager.find(ProbonoProject.class, probonoProjectId);
+			ConcertSinger p = manager.find(ConcertSinger.class, probonoProjectId);
 			probonoProject = new ProbonoProjectDTO(p.getProbonoProjectId(), p.getProbonoProjectName(), p.getProbonoId(),
 					p.getActivistId(), p.getReceiveId(), p.getProjectContent());
 		} catch (Exception e) {

@@ -6,12 +6,12 @@ CREATE TABLE probono (
 );  */
 package probono.model.dto;
 
+import concert.model.entity.Probono;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import probono.model.entity.Probono;
 
 @NoArgsConstructor
 @AllArgsConstructor

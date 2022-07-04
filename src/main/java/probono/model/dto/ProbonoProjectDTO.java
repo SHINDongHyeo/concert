@@ -10,11 +10,11 @@ CREATE TABLE probono_project (
 
 package probono.model.dto;
 
+import concert.model.entity.ConcertSinger;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import probono.model.entity.ProbonoProject;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -49,7 +49,7 @@ public class ProbonoProjectDTO {
 //		return builder.toString();
 //	}
 	
-	public ProbonoProject toEntity() {
-		return ProbonoProject.builder().probonoProjectId(probonoProjectId).probonoProjectName(probonoProjectName).probonoId(probonoId).activistId(activistId).receiveId(receiveId).projectContent(projectContent).build();
+	public ConcertSinger toEntity() {
+		return ConcertSinger.builder().probonoProjectId(probonoProjectId).probonoProjectName(probonoProjectName).probonoId(probonoId).activistId(activistId).receiveId(receiveId).projectContent(projectContent).build();
 	}
 }

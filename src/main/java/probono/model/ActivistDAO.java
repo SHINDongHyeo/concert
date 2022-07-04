@@ -7,8 +7,8 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
+import concert.model.entity.Concert;
 import probono.model.dto.ActivistDTO;
-import probono.model.entity.Activist;
 import probono.model.util.PublicCommon;
 
 public class ActivistDAO {
@@ -49,7 +49,7 @@ public class ActivistDAO {
 		boolean result = false;
 
 		try {
-			em.find(Activist.class, activistId).setMajor(major);
+			em.find(Concert.class, activistId).setMajor(major);
 
 			em.getTransaction().commit();
 
@@ -70,7 +70,7 @@ public class ActivistDAO {
 		boolean result = false;
 
 		try {
-			em.remove(em.find(Activist.class, activistId));
+			em.remove(em.find(Concert.class, activistId));
 
 			em.getTransaction().commit();
 
@@ -91,7 +91,7 @@ public class ActivistDAO {
 		ActivistDTO activist = null;
 
 		try {
-			Activist a = em.find(Activist.class, activistId);
+			Concert a = em.find(Concert.class, activistId);
 			activist = new ActivistDTO(a.getId(), a.getName(), a.getPassword(), a.getMajor());
 		} catch (Exception e) {
 			em.getTransaction().rollback();
@@ -106,7 +106,7 @@ public class ActivistDAO {
 	@SuppressWarnings("unchecked")
 	public ArrayList<ActivistDTO> getAllActivists() throws SQLException {
 		EntityManager em = PublicCommon.getEntityManager();
-		List<Activist> list = null;
+		List<Concert> list = null;
 		ArrayList<ActivistDTO> alist = new ArrayList<>();
 		try {
 			list = em.createNativeQuery("SELECT * FROM Activist").getResultList();
