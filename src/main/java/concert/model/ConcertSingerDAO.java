@@ -1,4 +1,4 @@
-﻿package probono.model;
+﻿package concert.model;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -7,24 +7,30 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
+<<<<<<< HEAD:src/main/java/probono/model/ProbonoProjectDAO.java
 import concert.model.entity.ConcertSinger;
 import probono.model.dto.ProbonoDTO;
 import probono.model.dto.ProbonoProjectDTO;
+=======
+import concert.model.dto.ConcertSingerDTO;
+import concert.model.dto.OrderDTO;
+import probono.model.entity.ProbonoProject;
+>>>>>>> 2f63035c1378ab1cb0e3594d975637e217aa704f:src/main/java/concert/model/ConcertSingerDAO.java
 import probono.model.util.PublicCommon;
 
-public class ProbonoProjectDAO {
+public class ConcertSingerDAO {
 
-	private static ProbonoProjectDAO instance = new ProbonoProjectDAO();
+	private static ConcertSingerDAO instance = new ConcertSingerDAO();
 
-	private ProbonoProjectDAO() {
+	private ConcertSingerDAO() {
 	}
 
-	public static ProbonoProjectDAO getInstance() {
+	public static ConcertSingerDAO getInstance() {
 		return instance;
 	}
 
 	// 프로보노 프로젝트 저장
-	public boolean addProbonoProject(ProbonoProjectDTO probonoProject) throws SQLException {
+	public boolean addProbonoProject(ConcertSingerDTO probonoProject) throws SQLException {
 		EntityManager manager = PublicCommon.getEntityManager();
 		manager.getTransaction().begin();
 		boolean result = false;
@@ -107,14 +113,19 @@ public class ProbonoProjectDAO {
 	}
 
 	// 프로보노 프로젝트 id로 해당 프로보노프로젝트 검색
-	public ProbonoProjectDTO getProbonoProject(int probonoProjectId) throws SQLException {
+	public ConcertSingerDTO getProbonoProject(int probonoProjectId) throws SQLException {
 		EntityManager manager = PublicCommon.getEntityManager();
 		manager.getTransaction().begin();
-		ProbonoProjectDTO probonoProject = null;
+		ConcertSingerDTO probonoProject = null;
 
 		try {
+<<<<<<< HEAD:src/main/java/probono/model/ProbonoProjectDAO.java
 			ConcertSinger p = manager.find(ConcertSinger.class, probonoProjectId);
 			probonoProject = new ProbonoProjectDTO(p.getProbonoProjectId(), p.getProbonoProjectName(), p.getProbonoId(),
+=======
+			ProbonoProject p = manager.find(ProbonoProject.class, probonoProjectId);
+			probonoProject = new ConcertSingerDTO(p.getProbonoProjectId(), p.getProbonoProjectName(), p.getProbonoId(),
+>>>>>>> 2f63035c1378ab1cb0e3594d975637e217aa704f:src/main/java/concert/model/ConcertSingerDAO.java
 					p.getActivistId(), p.getReceiveId(), p.getProjectContent());
 		} catch (Exception e) {
 			manager.getTransaction().rollback();
@@ -125,16 +136,16 @@ public class ProbonoProjectDAO {
 	}
 
 	// 모든 프로보노 프로젝트 검색
-	public ArrayList<ProbonoProjectDTO> getAllProbonoProjects() throws SQLException {
+	public ArrayList<ConcertSingerDTO> getAllProbonoProjects() throws SQLException {
 		EntityManager manager = PublicCommon.getEntityManager();
-		ArrayList<ProbonoProjectDTO> alist = new ArrayList<>();
-		List<ProbonoProjectDTO> list = null;
+		ArrayList<ConcertSingerDTO> alist = new ArrayList<>();
+		List<ConcertSingerDTO> list = null;
 		try {
 			list = manager.createNativeQuery("SELECT * FROM Probono_Project").getResultList();
 			Iterator it = list.iterator();
 			while(it.hasNext()) {
 				Object[] obj = (Object[]) it.next();
-				alist.add(new ProbonoProjectDTO(Integer.parseInt(String.valueOf(obj[0])), String.valueOf(obj[1]), String.valueOf(obj[2]), String.valueOf(obj[3]), String.valueOf(obj[4]), String.valueOf(obj[5])));
+				alist.add(new ConcertSingerDTO(Integer.parseInt(String.valueOf(obj[0])), String.valueOf(obj[1]), String.valueOf(obj[2]), String.valueOf(obj[3]), String.valueOf(obj[4]), String.valueOf(obj[5])));
 			}
 		} catch (Exception e) {
 			manager.getTransaction().rollback();
