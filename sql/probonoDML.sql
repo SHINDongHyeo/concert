@@ -1,30 +1,33 @@
 use playdata;
 
--- activist insert[재능 기부자 저장]
-insert into singer values('singer1', '나의사');
-insert into singer values('singer2', '오드리');
-insert into singer values('singer3', '키다리');
+insert into singer (singer_name, detail) values('아이유', '천재 가수');
+insert into singer (singer_name, detail) values('윈터', '에스파 멤버');
+insert into singer (singer_name, detail) values('카리나', '에스파 멤버2');
+insert into singer (singer_name, detail) values('채연', '르세라핌 멤버');
+insert into singer (singer_name, detail) values('Alfred Banks', '힙합 가수');
+insert into singer (singer_name, detail) values('Hippie ', '힙합 가수');
 
 SELECT * FROM singer;
  
--- recipient insert[재능 수혜자 저장]
-insert into writer values('writer1', '나아토피');
-insert into writer values('writer2', '나문화');
-insert into writer values('writer3', '나멘토');
+insert into concert (concert_name, location, date, max_seats, contents) values('워터밤', '서울', '2022-06-30', '500', '한국 물총놀이');
+insert into concert (concert_name, location, date, max_seats, contents) values('싸이흠뻑쇼', '강남', '2022-07-15', '1000', '물놀이');
+insert into concert (concert_name, location, date, max_seats, contents) values('Marcel p Black & Alfred Banks Live', 'LA', '2022-07-16', '100', 'The Freetown Boom Boom Room');
+insert into concert (concert_name, location, date, max_seats, contents) values('Hippie Death Cult', 'Paris', '2022-07-26', '50', '300 McKinley St, Lafayette, LA 70501');
 
-SELECT * FROM writer;
+SELECT * FROM concert;
 
--- probono insert[재능기부 정보 저장]
-insert into song values('schweitzer', '슈바이처 프로젝트', '의사, ');
-insert into song values('audreyHepbun', '오드레햅번 프로젝트', '예술가');
-insert into song values('daddyLongLegs', '키다리아저씨 프로젝트', '결연');
+insert into orders (customer_name, customer_email, amount, concert_id) values('김연아', 'yak@frozen.co.kr', 5, 3);
+insert into orders (customer_name, customer_email, amount, concert_id) values('신동엽', 'dy@naver.com', 3, 2);
+insert into orders (customer_name, customer_email, amount, concert_id) values('최이슬', 'rain@daum.net', 1, 1);
+insert into orders (customer_name, customer_email, amount, concert_id) values('황정민', 'paris@naver.com', 4, 3);
 
-SELECT * FROM song;
+SELECT * FROM orders;
 
--- probono_project insert[재능 기부 프로젝트 저장]
-insert into concert (location, song_id, singer_id, writer_id, concert_detail) values('슈바이처 프로젝트', 'schweitzer', 'giver1', 'receivePeople1', '아토피 무상 치료');
-insert into concert (location, song_id, singer_id, writer_id, concert_detail) values('오드리햅번 프로젝트', 'audreyHepbun', 'giver2', 'receivePeople2', '무료컷팅');
-insert into concert (location, song_id, singer_id, writer_id, concert_detail) values('키다리아저씨 프로젝트', 'schweitzer', 'giver3', 'receivePeople3', '장학금지원');
+insert into concert_singer (concert_id, singer_id) values(1, 2);
+insert into concert_singer (concert_id, singer_id) values(1, 3);
+insert into concert_singer (concert_id, singer_id) values(2, 1);
+insert into concert_singer (concert_id, singer_id) values(2, 4);
+insert into concert_singer (concert_id, singer_id) values(4, 6);
 
 SELECT * FROM concert;
 
