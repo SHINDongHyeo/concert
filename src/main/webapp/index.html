@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>재능 기부</title>
+</head>
+<body>
+<br><br><br>
+
+<h3>재능 기부의 모든 정보 검색하기</h3>
+<hr><p>
+
+
+<p>
+
+	<!-- 완성된 로직 : 보고 이해하기 -->
+	&nbsp;&nbsp;&nbsp;<a href="probono?command=probonoProjectAll">1. 진행중인 Probono Project 모두 검색</a><p>
+	
+	&nbsp;&nbsp;&nbsp;<a href="probono?command=activistAll">2. 재능 기부 프로젝트에 참여중인 기부자 모두 검색</a><p>	
+	
+	<!-- 재능 기부자 가입하기 -->
+	&nbsp;&nbsp;&nbsp;<a href="activist/activistInsert.html">3. 재능 기부자 가입하기</a><p>
+
+
+	<!-- 재능 기부자 검색하기 -->
+	<form action="probono?command=activist" method="post" >
+	&nbsp;&nbsp;&nbsp;
+	4. 기부자 ID : <input type="text" name="activistId"><input type="submit" value="검색">
+	</form>
+	<p>
+	<hr>
+	
+	&nbsp;&nbsp;&nbsp;<a href="probono?command=recipientAll">5. 재능 기부 프로젝트에 참여중인 수혜자 모두 검색</a><p>	
+	
+	&nbsp;&nbsp;&nbsp;<a href="recipient/recipientInsert.html">6. 재능 수혜자 가입하기</a><p>
+
+	<form action="probono?command=recipient" method="post" >
+	&nbsp;&nbsp;&nbsp;
+	7. 수혜자 ID : <input type="text" name="recipientId"><input type="submit" value="검색">
+	</form>
+	<p>
+	<hr>
+	
+	
+</body>
+</html>
