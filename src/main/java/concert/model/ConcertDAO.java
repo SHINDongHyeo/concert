@@ -7,8 +7,13 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
+<<<<<<< HEAD:src/main/java/probono/model/ActivistDAO.java
+import concert.model.entity.Concert;
+import probono.model.dto.ActivistDTO;
+=======
 import concert.model.dto.ConcertDTO;
 import probono.model.entity.Concert;
+>>>>>>> 2f63035c1378ab1cb0e3594d975637e217aa704f:src/main/java/concert/model/ConcertDAO.java
 import probono.model.util.PublicCommon;
 
 public class ConcertDAO {
@@ -92,7 +97,11 @@ public class ConcertDAO {
 
 		try {
 			Concert a = em.find(Concert.class, activistId);
+<<<<<<< HEAD:src/main/java/probono/model/ActivistDAO.java
+			activist = new ActivistDTO(a.getId(), a.getName(), a.getPassword(), a.getMajor());
+=======
 			Concert = new ConcertDTO(a.getId(), a.getName(), a.getPassword(), a.getMajor());
+>>>>>>> 2f63035c1378ab1cb0e3594d975637e217aa704f:src/main/java/concert/model/ConcertDAO.java
 		} catch (Exception e) {
 			em.getTransaction().rollback();
 		} finally {
@@ -107,7 +116,11 @@ public class ConcertDAO {
 	public ArrayList<ConcertDTO> getAllConcerts() throws SQLException {
 		EntityManager em = PublicCommon.getEntityManager();
 		List<Concert> list = null;
+<<<<<<< HEAD:src/main/java/probono/model/ActivistDAO.java
+		ArrayList<ActivistDTO> alist = new ArrayList<>();
+=======
 		ArrayList<ConcertDTO> alist = new ArrayList<>();
+>>>>>>> 2f63035c1378ab1cb0e3594d975637e217aa704f:src/main/java/concert/model/ConcertDAO.java
 		try {
 			list = em.createNativeQuery("SELECT * FROM Concert").getResultList();
 			Iterator it = list.iterator();

@@ -7,9 +7,15 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
+<<<<<<< HEAD:src/main/java/probono/model/ProbonoProjectDAO.java
+import concert.model.entity.ConcertSinger;
+import probono.model.dto.ProbonoDTO;
+import probono.model.dto.ProbonoProjectDTO;
+=======
 import concert.model.dto.ConcertSingerDTO;
 import concert.model.dto.OrderDTO;
 import probono.model.entity.ProbonoProject;
+>>>>>>> 2f63035c1378ab1cb0e3594d975637e217aa704f:src/main/java/concert/model/ConcertSingerDAO.java
 import probono.model.util.PublicCommon;
 
 public class ConcertSingerDAO {
@@ -51,7 +57,7 @@ public class ConcertSingerDAO {
 		boolean result = false;
 
 		try {
-			manager.find(ProbonoProject.class, projectId).setActivistId(activistId);
+			manager.find(ConcertSinger.class, projectId).setActivistId(activistId);
 
 			manager.getTransaction().commit();
 
@@ -72,7 +78,7 @@ public class ConcertSingerDAO {
 		boolean result = false;
 
 		try {
-			manager.find(ProbonoProject.class, probonoProjectId).setReceiveId(receiveId);
+			manager.find(ConcertSinger.class, probonoProjectId).setReceiveId(receiveId);
 
 			manager.getTransaction().commit();
 
@@ -93,7 +99,7 @@ public class ConcertSingerDAO {
 		boolean result = false;
 
 		try {
-			manager.remove(manager.find(ProbonoProject.class, probonoProjectId));
+			manager.remove(manager.find(ConcertSinger.class, probonoProjectId));
 
 			manager.getTransaction().commit();
 
@@ -113,8 +119,13 @@ public class ConcertSingerDAO {
 		ConcertSingerDTO probonoProject = null;
 
 		try {
+<<<<<<< HEAD:src/main/java/probono/model/ProbonoProjectDAO.java
+			ConcertSinger p = manager.find(ConcertSinger.class, probonoProjectId);
+			probonoProject = new ProbonoProjectDTO(p.getProbonoProjectId(), p.getProbonoProjectName(), p.getProbonoId(),
+=======
 			ProbonoProject p = manager.find(ProbonoProject.class, probonoProjectId);
 			probonoProject = new ConcertSingerDTO(p.getProbonoProjectId(), p.getProbonoProjectName(), p.getProbonoId(),
+>>>>>>> 2f63035c1378ab1cb0e3594d975637e217aa704f:src/main/java/concert/model/ConcertSingerDAO.java
 					p.getActivistId(), p.getReceiveId(), p.getProjectContent());
 		} catch (Exception e) {
 			manager.getTransaction().rollback();

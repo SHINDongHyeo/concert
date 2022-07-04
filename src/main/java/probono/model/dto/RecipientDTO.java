@@ -5,15 +5,9 @@
        receiveHopeContent   VARCHAR2(50) NULL
 ); */
 
-package probono.model.entity;
+package probono.model.dto;
 
-import java.util.List;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-
+import concert.model.entity.Recipient;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,21 +20,12 @@ import lombok.Setter;
 @Setter
 @Builder
 
-@Entity
-public class Recipient {
+public class RecipientDTO {
 
-	@Id
-	@Column(name="recipient_id")
 	private String id;
-
 	private String name;
-
 	private String password;
-
 	private String receiveHopeContent;
-
-	@OneToMany(mappedBy = "receiveId")
-	private List<ProbonoProject> ProbonoProjects;
 
 	@Override
 	public String toString() {
@@ -48,5 +33,9 @@ public class Recipient {
 		builder.append(" 4. 제공받는 대상자가 제공받는 서비스 : ");
 		builder.append(receiveHopeContent);
 		return builder.toString();
+	}
+
+	public Recipient toEntity() {
+		return Recipient.builder().id(id).name(name).password(password).receiveHopeContent(receiveHopeContent).build();
 	}
 }

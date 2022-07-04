@@ -7,9 +7,15 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
+<<<<<<< HEAD:src/main/java/probono/model/ProbonoDAO.java
+import concert.model.entity.Probono;
+import probono.model.dto.ActivistDTO;
+import probono.model.dto.ProbonoDTO;
+=======
 import concert.model.dto.ActivistDTO;
 import concert.model.dto.OrderDTO;
 import probono.model.entity.Order;
+>>>>>>> 2f63035c1378ab1cb0e3594d975637e217aa704f:src/main/java/concert/model/OrderDAO.java
 import probono.model.util.PublicCommon;
 
 public class OrderDAO {
