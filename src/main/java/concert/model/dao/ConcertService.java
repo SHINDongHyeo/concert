@@ -135,28 +135,33 @@ public class ConcertService {
 	
 	
 	//SingerDAO - CRUD
-	public static void notExistSinger(String SingerId) throws NotExistException, SQLException{
-		SingerDTO singer = singerDAO.getSinger(SingerId);
+	public static void notExistSinger(String singerId) throws NotExistException, SQLException{
+		SingerDTO singer = singerDAO.getSinger(singerId);
 		if(singer == null){
 			throw new NotExistException("검색하는 가수가 미 존재합니다.");
 		}
 	}
 	
-	public static boolean addSinger(SingerDTO Singer) throws SQLException{
-		return singerDAO.addSinger(Singer);
+	public static boolean addSinger(SingerDTO singer) throws SQLException{
+		return singerDAO.addSinger(singer);
 	}
 	
-	public static boolean deleteSinger(String SingerId) throws SQLException, NotExistException{
-		notExistSinger(SingerId);
-		return singerDAO.deleteSinger(SingerId);
+	public static boolean deleteSinger(String singerId) throws SQLException, NotExistException{
+		notExistSinger(singerId);
+		return singerDAO.deleteSinger(singerId);
 	}
 	
-	public static SingerDTO getSinger(String SingerId) throws SQLException, NotExistException{
-		SingerDTO singer = singerDAO.getSinger(SingerId);
+	public static SingerDTO getSinger(String singerId) throws SQLException, NotExistException{
+		SingerDTO singer = singerDAO.getSinger(singerId);
 		if(singer == null){
 			throw new NotExistException("검색하는 가수가 미 존재합니다.");
 		}
 		return singer;
+	}
+	
+	public static boolean updateSinger(String singerId, String singerDetail) throws SQLException, NotExistException{
+		notExistSinger(singerId);
+		return singerDAO.updateSinger(singerId, singerDetail);
 	}
 	
 	public ArrayList<SingerDTO> getAllSingers() throws SQLException,NotExistException{
