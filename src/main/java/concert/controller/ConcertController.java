@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> 539920519c2c1ccada3dabfedffff2daf91203fb
 package concert.controller;
 
 import java.io.IOException;
@@ -19,9 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import concert.model.dao.ConcertService;
 import concert.model.dto.ConcertDTO;
-
 import concert.model.dto.ConcertSingerDTO;
-
 import concert.model.dto.OrdersDTO;
 import concert.model.dto.SingerDTO;
 
@@ -466,7 +468,9 @@ public class ConcertController extends HttpServlet {
 			}
 		}
 		request.getRequestDispatcher(url).forward(request, response);
-
-
 	}
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 539920519c2c1ccada3dabfedffff2daf91203fb

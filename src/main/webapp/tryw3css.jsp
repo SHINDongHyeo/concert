@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -55,25 +56,25 @@ body {font-family: "Lato", sans-serif}
   <a href="#" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">MERCH</a>
 </div>
 
+	${requestScope.concertAll}
 <!-- Page content -->
 <div class="w3-content" style="max-width:2000px;margin-top:46px">
-
   <div class="mySlides w3-display-container w3-center">
     <c:forEach items="${requestScope.concertAll}" var="data">
     	<div class="w3-third">
 		 	<p>${data.concertName}</p>
-		 	<img src="${data.concertId}_${data.concertName}.jpg" style="width:100%">
+		 	<img src=`images/${data.concertId}_${data.concertName}.jpg` style="width:100%">
     <div 		class="w3-display-bottommiddle w3-container w3-text-white w3-padding-32 w3-hide-small">
 		 	<p>${data.concert}</p>
 		</div>
 	 </c:forEach>
     </div>
-
-<%--   <!-- Automatic Slideshow Images -->
+<!-- 
+  Automatic Slideshow Images
   <div class="mySlides w3-display-container w3-center">
     <img src="images/la.jpg" style="width:100%">
     <div class="w3-display-bottommiddle w3-container w3-text-white w3-padding-32 w3-hide-small">
-      <h3>Los Angeles</h3>
+      <h3>Los Angeles</h3>z
       <p><b>We had the best time playing at Venice Beach!</b></p>   
     </div>
   </div>
@@ -90,7 +91,7 @@ body {font-family: "Lato", sans-serif}
       <h3>Chicago</h3>
       <p><b>Thank you, Chicago - A night we won't forget.</b></p>    
     </div>
-  </div>
+  </div> -->
 
   <!-- The Band Section -->
   <div class="w3-container w3-content w3-center w3-padding-64" style="max-width:1000px" id="band">
@@ -102,11 +103,11 @@ body {font-family: "Lato", sans-serif}
     <c:forEach items="${requestScope.singerAll}" var="data">
     	<div class="w3-third">
 		 	<p>${data.detail}</p>
-		 	<img src="images/${data.singerId}_${data.singerName}.jpg" class="w3-round w3-margin-bottom" alt="Random Name" style="width:60%">
+		 	<img src="images/`${data.singerId}`_`${data.singerName}`.jpg" class="w3-round w3-margin-bottom" alt="Random Name" style="width:60%">
 		 	<p>${data.singer}</p>
 		</div>
 	 </c:forEach>
-    </div> --%>
+    </div> 
     
     <!-- <div class="w3-row w3-padding-32">
       <div class="w3-third">
