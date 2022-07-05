@@ -22,12 +22,12 @@ import lombok.Setter;
 @Builder
 
 @Entity
-public class Order {
+public class Orders {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "order_id")
-	private String orderId;
+	private int orderId;
 
 	@Column(name = "customer_name")
 	private String customerName;
@@ -37,7 +37,7 @@ public class Order {
 
 	private int amount;
 
-	private String concert_id;
+	private int concert_id;
 	
 
 	@ManyToOne(fetch = FetchType.LAZY)

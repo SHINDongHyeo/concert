@@ -1,5 +1,8 @@
 ﻿package concert.model.dto;
 
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,7 +20,8 @@ public class ConcertDTO {
 	private int concertId;
 	private String concertName;
 	private String location;
-	private String date;
+	@Temporal(TemporalType.DATE)
+	private java.util.Date date;
 	private int maxSeats;
 	private String contents;
 }
