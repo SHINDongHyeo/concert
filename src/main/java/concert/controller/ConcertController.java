@@ -10,7 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 
 <<<<<<< HEAD
 import concert.model.ConcertService;
+<<<<<<< HEAD
 import concert.model.dto.ActivistDTO;
+=======
+>>>>>>> 2c5e761d0918312fca46091e62229a8e041b5e49
 =======
 import concert.model.dao.ConcertSingerDAO;
 >>>>>>> ab08e49ebff11694a52e7084d2b2c955e2a85a2f
@@ -27,7 +30,11 @@ public class ConcertController extends HttpServlet {
 		String command = request.getParameter("command");
 		
 		try{
+<<<<<<< HEAD
 			if(command.equals("concertAll")){//모든 concert project 정보 검색
+=======
+			if(command.equals("concertAll")){//모든 concert  정보 검색
+>>>>>>> 2c5e761d0918312fca46091e62229a8e041b5e49
 				concertAll(request, response);
 			}else if(command.equals("activistAll")){//모든 재능 기부자 검색
 				activistAll(request, response);
@@ -61,12 +68,21 @@ public class ConcertController extends HttpServlet {
 		}
 	}
 	
+<<<<<<< HEAD
 
 	//모두 Probono 검색 메소드
 	public void concertAll(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String url = "showError.jsp";
 		try {
 			request.setAttribute("concertAll", concertService.getAllProbonos());
+=======
+	/*
+	//모두 concert 검색 메소드 
+	public void concertAll(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String url = "showError.jsp";
+		try {
+			request.setAttribute("concertAll", concertService.getAllconcerts());
+>>>>>>> 2c5e761d0918312fca46091e62229a8e041b5e49
 			url = "concertList.jsp";
 		}catch(Exception s){
 			request.setAttribute("errorMsg", s.getMessage());
@@ -296,7 +312,11 @@ public class ConcertController extends HttpServlet {
 				s.printStackTrace();
 			}
 			request.getRequestDispatcher(url).forward(request, response);
+<<<<<<< HEAD
 		}
+=======
+		}*/
+>>>>>>> 2c5e761d0918312fca46091e62229a8e041b5e49
 =======
 	public static ConcertSingerDAO a = ConcertSingerDAO.getInstance();
 	
