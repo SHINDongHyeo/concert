@@ -1,6 +1,4 @@
-<<<<<<< HEAD
-﻿//2번 유정원
-=======
+
 package concert.controller;
 
 import java.io.IOException;
@@ -16,9 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import concert.model.dao.ConcertService;
 import concert.model.dto.ConcertDTO;
-
 import concert.model.dto.ConcertSingerDTO;
-
 import concert.model.dto.OrdersDTO;
 import concert.model.dto.SingerDTO;
 
@@ -449,8 +445,6 @@ public class ConcertController extends HttpServlet {
 			}
 		}
 		request.getRequestDispatcher(url).forward(request, response);
-
-
 	}
 }
->>>>>>> 05199af0ae1e3b7f4395ec93b5d6ae664a4ae6fe
+
