@@ -10,7 +10,7 @@ import org.modelmapper.ModelMapper;
 
 import concert.model.dto.ConcertSingerDTO;
 import concert.model.entity.ConcertSinger;
-import probono.model.util.PublicCommon;
+import concert.model.util.PublicCommon;
 
 public class ConcertSingerDAO {
 	

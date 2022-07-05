@@ -1,7 +1,10 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="ko">
+<html>
 <head>
-<title>W3.CSS Template</title>
+<meta charset="UTF-8">
+<title>Insert title here</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -16,6 +19,7 @@ body {font-family: "Lato", sans-serif}
 .mySlides {display: none}
 </style>
 </head>
+
 <body>
 
 <!-- Navbar -->
@@ -54,9 +58,20 @@ body {font-family: "Lato", sans-serif}
 <!-- Page content -->
 <div class="w3-content" style="max-width:2000px;margin-top:46px">
 
-  <!-- Automatic Slideshow Images -->
   <div class="mySlides w3-display-container w3-center">
-    <img src="images/5_psy.jpg" style="width:100%">
+    <c:forEach items="${requestScope.concertAll}" var="data">
+    	<div class="w3-third">
+		 	<p>${data.concertName}</p>
+		 	<img src="${data.concertId}_${data.concertName}.jpg" style="width:100%">
+    <div 		class="w3-display-bottommiddle w3-container w3-text-white w3-padding-32 w3-hide-small">
+		 	<p>${data.concert}</p>
+		</div>
+	 </c:forEach>
+    </div>
+
+<%--   <!-- Automatic Slideshow Images -->
+  <div class="mySlides w3-display-container w3-center">
+    <img src="images/la.jpg" style="width:100%">
     <div class="w3-display-bottommiddle w3-container w3-text-white w3-padding-32 w3-hide-small">
       <h3>Los Angeles</h3>
       <p><b>We had the best time playing at Venice Beach!</b></p>   
@@ -82,7 +97,18 @@ body {font-family: "Lato", sans-serif}
     <h1 class="w1-wide">출연 가수</h1>
     <p class="w3-opacity"><i>우리는 음악을 사랑합니다.</i></p>
     <p class="w3-justify">우리는 최고의 음악을 최고의 여러분께 선사합니다. 각각의 컨셉의 콘서트와 각각의 가수들을 모두 접할 수 있는 곳. 바로 여기 K-엔코아입니다. <br> 나라에서 허락한 유일한 마약. 동양과 서양, 시대를 초월한 초특급 출연진들이 기다리고 있습니다. <br> 우리 왼손으로 악수합시다. 그 것이 내 심장과 더 가까우니까요. <br> ※주의 : 트로트는 취급하지 않습니다.</p>
+    
     <div class="w3-row w3-padding-32">
+    <c:forEach items="${requestScope.singerAll}" var="data">
+    	<div class="w3-third">
+		 	<p>${data.detail}</p>
+		 	<img src="images/${data.singerId}_${data.singerName}.jpg" class="w3-round w3-margin-bottom" alt="Random Name" style="width:60%">
+		 	<p>${data.singer}</p>
+		</div>
+	 </c:forEach>
+    </div> --%>
+    
+    <!-- <div class="w3-row w3-padding-32">
       <div class="w3-third">
         <p>beatles</p>
         <img src="images/1_beatles.jpg" class="w3-round w3-margin-bottom" alt="Random Name" style="width:60%">
@@ -96,7 +122,7 @@ body {font-family: "Lato", sans-serif}
         <img src="images/3_queen.jpg" class="w3-round" alt="Random Name" style="width:60%">
       </div>
     </div>
-  </div>
+  </div> -->
 
   <!-- The Tour Section -->
   <div class="w3-black" id="tour">

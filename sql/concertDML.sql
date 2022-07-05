@@ -1,16 +1,15 @@
 use playdata;
 
 -- singer insert[가수 저장]
-insert into singer (singer_name, detail) values('비틀즈', '역사상 최고의 롹 밴드로, 존 레논, 폴 매카트니, 조지해리슨, 링고스타로 구성' );
+insert into singer (singer_name, detail) values('비틀즈', '롹밴드' );
 insert into singer (singer_name, detail) values('아이유', '천재 가수');
 insert into singer (singer_name, detail) values('퀸' '록의 정석');
 insert into singer (singer_name, detail) values('마이클잭슨', '팝의 황제');
-insert into singer (singer_name, detail) values('아이유', '천재 가수');
 insert into singer (singer_name, detail) values('윈터', '에스파 멤버');
 insert into singer (singer_name, detail) values('카리나', '에스파 멤버2');
-insert into singer (singer_name, detail) values('채연', '르세라핌 멤버');
+insert into singer (singer_name, detail) values('채원', '르세라핌 멤버');
 insert into singer (singer_name, detail) values('Alfred Banks', '힙합 가수');
-insert into singer (singer_name, detail) values('Hippie ', '힙합 가수');
+insert into singer (singer_name, detail) values('Hippie', '힙합 가수');
 
 SELECT * FROM singer;
  
