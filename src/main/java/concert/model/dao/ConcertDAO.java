@@ -1,4 +1,4 @@
-package cocert.model.dao;
+package concert.model.dao;
 
 import java.sql.SQLException;
 import java.text.DateFormat;

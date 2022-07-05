@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import concert.model.dto.SingerDTO;
 import concert.model.entity.Singer;
-import probono.model.util.PublicCommon;
+import concert.model.util.PublicCommon;
 
 public class SingerDAO {
 	
