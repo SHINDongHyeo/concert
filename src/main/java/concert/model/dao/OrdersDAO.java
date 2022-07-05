@@ -6,7 +6,9 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
+import concert.model.dto.ConcertSingerDTO;
 import concert.model.dto.OrdersDTO;
+import concert.model.entity.ConcertSinger;
 import concert.model.entity.Orders;
 import concert.model.util.PublicCommon;
 
@@ -18,6 +20,22 @@ public class OrdersDAO {
 
 	public static OrdersDAO getInstance() {
 		return instance;
+	}
+	
+	public OrdersDTO getOrder(int orderId) throws SQLException {
+		EntityManager em = PublicCommon.getEntityManager();
+		em.getTransaction().begin();
+		OrdersDTO order = null;
+
+		try {
+			Orders o = em.find(Orders.class, orderId);
+			order = new OrdersDTO(o.getOrderId(), o.getCustomerName(), o.getCustomerEmail(), o.getConcert_id(), o.getAmount());
+		} catch (Exception e) {
+			em.getTransaction().rollback();
+		} finally {
+			em.close();
+		}
+		return order;
 	}
 
 	public boolean addOrders(OrdersDTO orders) throws SQLException {
@@ -58,13 +76,13 @@ public class OrdersDAO {
 //		return result;
 //	}
 
-//	public boolean updateProbonoProjectReceive(int probonoProjectId, String receiveId) throws SQLException {
+//	public boolean updateProbonoProjectReceive(int concertProjectId, String receiveId) throws SQLException {
 //		EntityManager manager = PublicCommon.getEntityManager();
 //		manager.getTransaction().begin();
 //		boolean result = false;
 //
 //		try {
-//			manager.find(ProbonoProject.class, probonoProjectId).setReceiveId(receiveId);
+//			manager.find(ProbonoProject.class, concertProjectId).setReceiveId(receiveId);
 //
 //			manager.getTransaction().commit();
 //
@@ -97,21 +115,21 @@ public class OrdersDAO {
 		return result;
 	}
 
-//	public OrdersDTO getProbonoProject(int probonoProjectId) throws SQLException {
+//	public OrdersDTO getProbonoProject(int concertProjectId) throws SQLException {
 //		EntityManager manager = PublicCommon.getEntityManager();
 //		manager.getTransaction().begin();
-//		OrdersDTO probonoProject = null;
+//		OrdersDTO concertProject = null;
 //
 //		try {
-//			ProbonoProject p = manager.find(ProbonoProject.class, probonoProjectId);
-//			probonoProject = new OrdersDTO(p.getProbonoProjectId(), p.getProbonoProjectName(), p.getProbonoId(),
+//			ProbonoProject p = manager.find(ProbonoProject.class, concertProjectId);
+//			concertProject = new OrdersDTO(p.getProbonoProjectId(), p.getProbonoProjectName(), p.getProbonoId(),
 //					p.getActivistId(), p.getReceiveId(), p.getProjectContent());
 //		} catch (Exception e) {
 //			manager.getTransaction().rollback();
 //		} finally {
 //			manager.close();
 //		}
-//		return probonoProject;
+//		return concertProject;
 //	}
 
 	public List<OrdersDTO> getAllOrders() throws SQLException {

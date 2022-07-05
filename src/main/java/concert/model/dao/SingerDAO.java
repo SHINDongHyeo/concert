@@ -15,14 +15,22 @@ import concert.model.util.PublicCommon;
 
 public class SingerDAO {
 	
+	private static SingerDAO instance = new SingerDAO();
+
+	private SingerDAO() {
+	}
+
+	public static SingerDAO getInstance() {
+		return instance;
+	}
 	
 	//가수 저장
-	public boolean addSinger(SingerDTO Singer) throws SQLException {
+	public boolean addSinger(SingerDTO singer) throws SQLException {
 		EntityManager manager = PublicCommon.getEntityManager();
 		manager.getTransaction().begin();
 		boolean result = false;
 		try {
-			manager.persist(Singer);
+			manager.persist(singer);
 			manager.getTransaction().commit();
 
 			result = true;
@@ -36,12 +44,12 @@ public class SingerDAO {
 	}
 	
 		// singer id로 detail 수정하기 
-		public boolean updateSinger(String SingerId, String SingerDetail) throws SQLException {
+		public boolean updateSinger(String singerId, String singerDetail) throws SQLException {
 			EntityManager manager = PublicCommon.getEntityManager();
 			manager.getTransaction().begin();
 			boolean result = false;
 			try {
-				manager.find(Singer.class, SingerId).setDetail(SingerDetail);
+				manager.find(Singer.class, singerId).setDetail(singerDetail);
 
 				manager.getTransaction().commit();
 
@@ -55,13 +63,13 @@ public class SingerDAO {
 		}
 	
 		//가수 삭제
-		public boolean deleteSinger(String SingerId) throws SQLException {
+		public boolean deleteSinger(String singerId) throws SQLException {
 			EntityManager manager = PublicCommon.getEntityManager();
 			manager.getTransaction().begin();
 			boolean result = false;
 
 			try {
-				manager.remove(manager.find(Singer.class, SingerId));
+				manager.remove(manager.find(Singer.class, singerId));
 
 				manager.getTransaction().commit();
 
@@ -75,20 +83,20 @@ public class SingerDAO {
 		}
 
 		//가수 id로 가수 모든 정보 검색
-		public SingerDTO getSinger(String SingerId) throws SQLException {
+		public SingerDTO getSinger(String singerId) throws SQLException {
 			EntityManager manager = PublicCommon.getEntityManager();
 			manager.getTransaction().begin();
-			SingerDTO Singer = null;
+			SingerDTO singer = null;
 
 			try {
-				Singer p = manager.find(Singer.class, SingerId);
-				Singer = new SingerDTO(p.getSingerId(), p.getSingerName(), p.getDetail());
+				Singer p = manager.find(Singer.class, Integer.parseInt(singerId));
+				singer = new SingerDTO(p.getSingerId(), p.getSingerName(), p.getDetail());
 			} catch (Exception e) {
 				manager.getTransaction().rollback();
 			} finally {
 				manager.close();
 			}
-			return Singer;
+			return singer;
 		}
 		
 		//모든 가수 검색
