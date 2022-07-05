@@ -55,6 +55,11 @@ public class ConcertService {
 	public static boolean addConcert(ConcertDTO concert) throws SQLException{
 		return concertDAO.addConcert(concert);
 	}
+	
+	public static boolean updateConcert(int concertId, int maxSeats) throws SQLException, NotExistException{
+		notExistConcert(concertId);
+		return concertDAO.updateConcert(concertId, maxSeats);
+	}
 
 	//concert 삭제
 	public boolean deleteConcert(int concertId) throws SQLException, NotExistException{
