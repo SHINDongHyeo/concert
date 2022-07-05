@@ -6,7 +6,9 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
+import concert.model.dto.ConcertSingerDTO;
 import concert.model.dto.OrdersDTO;
+import concert.model.entity.ConcertSinger;
 import concert.model.entity.Orders;
 import concert.model.util.PublicCommon;
 
@@ -18,6 +20,22 @@ public class OrdersDAO {
 
 	public static OrdersDAO getInstance() {
 		return instance;
+	}
+	
+	public OrdersDTO getOrder(int orderId) throws SQLException {
+		EntityManager em = PublicCommon.getEntityManager();
+		em.getTransaction().begin();
+		OrdersDTO order = null;
+
+		try {
+			Orders o = em.find(Orders.class, orderId);
+			order = new OrdersDTO(o.getOrderId(), o.getCustomerName(), o.getCustomerEmail(), o.getConcert_id(), o.getAmount());
+		} catch (Exception e) {
+			em.getTransaction().rollback();
+		} finally {
+			em.close();
+		}
+		return order;
 	}
 
 	public boolean addOrders(OrdersDTO orders) throws SQLException {
