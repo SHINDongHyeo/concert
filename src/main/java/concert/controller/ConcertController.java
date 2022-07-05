@@ -1,11 +1,9 @@
-<<<<<<< HEAD
-﻿//2번 유정원
-=======
 package concert.controller;
 
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.servlet.ServletException;
@@ -16,9 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import concert.model.dao.ConcertService;
 import concert.model.dto.ConcertDTO;
-
 import concert.model.dto.ConcertSingerDTO;
-
 import concert.model.dto.OrdersDTO;
 import concert.model.dto.SingerDTO;
 
@@ -33,10 +29,14 @@ public class ConcertController extends HttpServlet {
 	// COMMAND에 따라 분류
 	protected void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
 		request.setCharacterEncoding("utf-8");
 		String command = request.getParameter("command");
 
 		switch (command) {
+		case "start":
+			start(request, response);
+			break;
 		case "getConcert":
 			getConcert(request, response);
 			break;
@@ -97,7 +97,20 @@ public class ConcertController extends HttpServlet {
 		}
 	}
 ///////////////////////////////////////////////////////////////////////////////////////////////
-
+	private void start(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String url = "showError.jsp";
+		try {
+			ArrayList<SingerDTO> a = service.getAllSingers();
+			request.setAttribute("singerAll", a);
+			ArrayList<ConcertDTO> b = service.getAllConcert();
+			request.setAttribute("concertAll", b);
+			url = "view.jsp";
+		}catch(Exception s){
+			request.setAttribute("errorMsg", s.getMessage());
+			s.printStackTrace();
+		}
+		request.getRequestDispatcher(url).forward(request, response);
+	}
 	/** Concert **/
 	// 한 콘서트 검색
 	private void getConcert(HttpServletRequest request, HttpServletResponse response)
@@ -273,8 +286,9 @@ public class ConcertController extends HttpServlet {
 	private void getAllSingers(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String url = "showError.jsp";
 		try {
-			request.setAttribute("singerAll", service.getAllSingers());
-			url = "singerList.jsp";
+			ArrayList<SingerDTO> a = service.getAllSingers();
+			request.setAttribute("singerAll", a);
+			url = "view.jsp";
 		}catch(Exception s){
 			request.setAttribute("errorMsg", s.getMessage());
 			s.printStackTrace();
@@ -453,4 +467,3 @@ public class ConcertController extends HttpServlet {
 
 	}
 }
->>>>>>> 05199af0ae1e3b7f4395ec93b5d6ae664a4ae6fe
