@@ -1,3 +1,10 @@
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+
+>>>>>>> 539920519c2c1ccada3dabfedffff2daf91203fb
+>>>>>>> 7ddc197bb5061f0b75492ee358e953c9345c0885
 package concert.controller;
 
 import java.io.IOException;
@@ -5,6 +12,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.json.JSONObject;
+import org.json.JSONException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -272,7 +285,21 @@ public class ConcertController extends HttpServlet {
 			throws ServletException, IOException {
 		String url = "showError.jsp";
 		try {
-			request.setAttribute("getAllOrders", service.getAllOrders());
+			
+			List<OrdersDTO> ordersDTOs = service.getAllOrders();
+			JSONObject orders = new JSONObject();
+			JSONObject orders2 = null;
+			
+			for(int i = 0; i < ordersDTOs.size(); i++) {
+				orders2 = new JSONObject();
+				orders2.put("orderId", ordersDTOs.get(i).getOrderId());
+				orders2.put("customerName", ordersDTOs.get(i).getCustomerName());
+				orders2.put("customerEmail", ordersDTOs.get(i).getCustomerEmail());
+				orders2.put("concertId", ordersDTOs.get(i).getConcertId());
+				orders2.put("amount", ordersDTOs.get(i).getAmount());
+				orders.put(String.valueOf(i), orders2);
+			}
+			request.setAttribute("getAllOrders", orders);
 			url = "showSuccess.jsp";
 		} catch (Exception e) {
 			request.setAttribute("errMsg", e.getMessage());
@@ -463,7 +490,12 @@ public class ConcertController extends HttpServlet {
 			}
 		}
 		request.getRequestDispatcher(url).forward(request, response);
-
-
 	}
 }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+
+>>>>>>> 539920519c2c1ccada3dabfedffff2daf91203fb
+>>>>>>> 7ddc197bb5061f0b75492ee358e953c9345c0885
