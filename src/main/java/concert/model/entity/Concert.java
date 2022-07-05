@@ -45,7 +45,7 @@ public class Concert {
 	private String contents;
 
 	@OneToMany(mappedBy = "concert")
-	private List<Order> order;
+	private List<Orders> order;
 	
 	@OneToMany(mappedBy = "concert")
 	private List<ConcertSinger> concertSinger;
