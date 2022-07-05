@@ -1,6 +1,9 @@
 package concert.controller;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,10 +11,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import concert.model.dao.ConcertService;
+import concert.model.dto.ConcertDTO;
+import concert.model.dto.ConcertSingerDTO;
+import concert.model.dto.OrdersDTO;
 import concert.model.dto.SingerDTO;
 
 @WebServlet("/concert")
-private class ConcertController extends HttpServlet {
+public class ConcertController extends HttpServlet {
 	private static ConcertService service = ConcertService.getInstance();
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -32,7 +39,11 @@ private class ConcertController extends HttpServlet {
 			deleteConcert(request, response);
 			break;
 		case "addConcert":
-			addConcert(request, response);
+			try {
+				addConcert(request, response);
+			} catch (ServletException | IOException | ParseException e) {
+				e.printStackTrace();
+			}
 			break;
 		case "updateConcert":
 			updateConcert(request, response);
@@ -84,11 +95,12 @@ private class ConcertController extends HttpServlet {
 	private void getConcert(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String url = "showError.jsp";
-		if (request.getParameter("concertId") == null) {
+		String concertId = request.getParameter("concertId");
+		if (concertId == null) {
 			request.setAttribute("errorMsg", "검색하려는 콘서트 id값으로 null이나 공백이 입력되었습니다. 다시 입력해주세요");
 		} else {
 			try {
-				request.setAttribute("getConcert", service.getConcert());
+				request.setAttribute("getConcert", service.getConcert(Integer.parseInt(concertId)));
 				url = "showSuccess.jsp";
 			} catch (Exception e) {
 				request.setAttribute("errMsg", e.getMessage());
@@ -116,11 +128,12 @@ private class ConcertController extends HttpServlet {
 	private void deleteConcert(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String url = "showError.jsp";
-		if (request.getParameter("concertId") == null) {
+		String concertId = request.getParameter("concertId");
+		if (concertId == null) {
 			request.setAttribute("errorMsg", "삭제하려는 콘서트 id값으로 null이나 공백이 입력되었습니다. 다시 입력해주세요");
 		} else {
 			try {
-				request.setAttribute("deleteConcert", service.deleteConcert());
+				request.setAttribute("deleteConcert", service.deleteConcert(Integer.parseInt(concertId)));
 				url = "showSuccess.jsp";
 			} catch (Exception e) {
 				request.setAttribute("errMsg", e.getMessage());
@@ -132,13 +145,24 @@ private class ConcertController extends HttpServlet {
 	
 	// 콘서트 추가
 	private void addConcert(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+			throws ServletException, IOException, ParseException {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		String url = "showError.jsp";
-		if (request.getParameter("concert") == null) {
+		int id = Integer.parseInt(request.getParameter("concertId"));
+		String name = request.getParameter("concertName");
+		String loc = request.getParameter("location");
+		Date date = formatter.parse(request.getParameter("date"));
+		int maxSeats = Integer.parseInt(request.getParameter("maxSeats"));
+		String contents = request.getParameter("contents");
+		
+		if (id == 0) {
 			request.setAttribute("errorMsg", "삭제하려는 콘서트 id값으로 null이나 공백이 입력되었습니다. 다시 입력해주세요");
 		} else {
 			try {
-				request.setAttribute("addConcert", service.addConcert());
+				ConcertDTO concert = ConcertDTO.builder().concertId(id).concertName(name)
+						.location(loc).date(date).maxSeats(maxSeats)
+						.contents(contents).build();
+				request.setAttribute("addConcert", service.addConcert(concert));
 				url = "showSuccess.jsp";
 			} catch (Exception e) {
 				request.setAttribute("errMsg", e.getMessage());
@@ -152,11 +176,15 @@ private class ConcertController extends HttpServlet {
 	private void updateConcert(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String url = "showError.jsp";
-		if (request.getParameter("concertId") == null) {
+		
+		int id = Integer.parseInt(request.getParameter("concertId"));
+		int maxSeats = Integer.parseInt(request.getParameter("maxSeats"));
+		
+		if (id == 0) {
 			request.setAttribute("errorMsg", "수정하려는 콘서트 id값으로 null이나 공백이 입력되었습니다. 다시 입력해주세요");
 		} else {
 			try {
-				request.setAttribute("updateConcert", service.updateConcert());
+				request.setAttribute("updateConcert", service.updateConcert(id, maxSeats));
 				url = "showSuccess.jsp";
 			} catch (Exception e) {
 				request.setAttribute("errMsg", e.getMessage());
@@ -172,11 +200,21 @@ private class ConcertController extends HttpServlet {
 	private void addOrders(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String url = "showError.jsp";
-		if (request.getParameter("orders") == null) {
+		int id = Integer.parseInt(request.getParameter("orderId"));
+		String name = request.getParameter("customerName");
+		String email = request.getParameter("customerEmail");
+		int concertId = Integer.parseInt(request.getParameter("concertId"));
+		int amount = Integer.parseInt(request.getParameter("amount"));
+		
+		OrdersDTO order = OrdersDTO.builder().orderId(id).customerName(name)
+							.customerEmail(email).concertId(concertId)
+							.amount(amount).build();
+		
+		if (id == 0) {
 			request.setAttribute("errorMsg", "추가하려는 주문내역값으로 null이나 공백이 입력되었습니다. 다시 입력해주세요");
 		} else {
 			try {
-				request.setAttribute("addOrders", service.addOrders());
+				request.setAttribute("addOrders", service.addOrders(order));
 				url = "showSuccess.jsp";
 			} catch (Exception e) {
 				request.setAttribute("errMsg", e.getMessage());
@@ -190,11 +228,13 @@ private class ConcertController extends HttpServlet {
 	private void deleteOrders(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String url = "showError.jsp";
-		if (request.getParameter("orderId") == null) {
+		int id = Integer.parseInt(request.getParameter("orderId"));
+
+		if (id == 0) {
 			request.setAttribute("errorMsg", "삭제하려는 주문내역 id값으로 null이나 공백이 입력되었습니다. 다시 입력해주세요");
 		} else {
 			try {
-				request.setAttribute("deleteOrders", service.deleteOrders());
+				request.setAttribute("deleteOrders", service.deleteOrders(id));
 				url = "showSuccess.jsp";
 			} catch (Exception e) {
 				request.setAttribute("errMsg", e.getMessage());
@@ -237,7 +277,7 @@ private class ConcertController extends HttpServlet {
 		String url = "showError.jsp";
 		try {
 			SingerDTO s = service.getSinger(request.getParameter("singerId"));
-			if(a != null) {
+			if(s != null) {
 				request.setAttribute("singer", s);
 				url = "singer/singerDetail.jsp";
 			}else {
@@ -261,7 +301,11 @@ private class ConcertController extends HttpServlet {
 		//해킹등으로 불합리하게 요청도 될수 있다는 가정하에 모든 데이터가 제대로 전송이 되었는지를 검증하는 로직
 		if(id != null && id.length() !=0 && name != null) {
 		
-			SingerDTO singer = new SingerDTO(id, name, detail);
+			SingerDTO singer = SingerDTO.builder()
+										.singerId(Integer.parseInt(id))
+										.singerName(name)
+										.detail(detail)
+										.build();
 			try{
 				boolean result = service.addSinger(singer);
 				if(result){
@@ -281,9 +325,10 @@ private class ConcertController extends HttpServlet {
 	// 한 Singer 삭제
 	private void deleteSinger(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String url = "showError.jsp";
+		String singerId = request.getParameter("singerId");
 		try {
-			if(service.deleteSinger(request.getParameter("singerId"))) {
-				request.setAttribute("singerAll", service.deleteSinger());
+			if(service.deleteSinger(singerId)) {
+				request.setAttribute("singerAll", service.deleteSinger(singerId));
 				url = "activist/activistList.jsp";
 			}else {
 				request.setAttribute("errorMsg", "저장 실패");
@@ -299,9 +344,11 @@ private class ConcertController extends HttpServlet {
 	// 한 Singer 수정
 	private void updateSinger(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String url = "showError.jsp";
+		String singerId = request.getParameter("singerId");
+		String singerDetail = request.getParameter("singerDetail");
 		try {
-			if(service.deleteSinger(request.getParameter("singerId"))) {
-				request.setAttribute("singerAll", service.deleteSinger());
+			if(service.updateSinger(singerId,singerDetail)) {
+				request.setAttribute("singerAll", service.updateSinger(singerId,singerDetail));
 				url = "activist/activistList.jsp";
 			}else {
 				request.setAttribute("errorMsg", "저장 실패");
@@ -333,11 +380,20 @@ private class ConcertController extends HttpServlet {
 	private void addConcertSinger(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String url = "showError.jsp";
-		if (request.getParameter("concertSinger") == null) {
+		String concertSingerId = request.getParameter("concertSingerId");
+		String concertId = request.getParameter("concertId");
+		String singerId = request.getParameter("singerId");
+		ConcertSingerDTO concertSinger = ConcertSingerDTO.builder()
+											.concertSingerId(Integer.parseInt(concertSingerId))
+											.concertId(Integer.parseInt(concertId))
+											.singerId(Integer.parseInt(singerId))
+											.build();
+							
+		if (concertSinger == null) {
 			request.setAttribute("errorMsg", "추가하려는 콘서트싱어 id값으로 null이나 공백이 입력되었습니다. 다시 입력해주세요");
 		} else {
 			try {
-				request.setAttribute("addConcertSinger", service.addConcertSinger());
+				request.setAttribute("addConcertSinger", service.addConcertSinger(concertSinger));
 				url = "showSuccess.jsp";
 			} catch (Exception e) {
 				request.setAttribute("errMsg", e.getMessage());
@@ -350,11 +406,12 @@ private class ConcertController extends HttpServlet {
 	private void deleteConcertSinger(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String url = "showError.jsp";
-		if (request.getParameter("concertSingerId") == null) {
+		String concertSingerId = request.getParameter("concertSingerId");
+		if (concertSingerId == null) {
 			request.setAttribute("errorMsg", "삭제하려는 콘서트싱어 id값으로 null이나 공백이 입력되었습니다. 다시 입력해주세요");
 		} else {
 			try {
-				request.setAttribute("deleteConcertSinger", service.addConcdeleteConcertSingerertSinger());
+				request.setAttribute("deleteConcertSinger", service.deleteConcertSinger(concertSingerId));
 				url = "showSuccess.jsp";
 			} catch (Exception e) {
 				request.setAttribute("errMsg", e.getMessage());
@@ -367,11 +424,12 @@ private class ConcertController extends HttpServlet {
 	private void getConcertSinger(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String url = "showError.jsp";
-		if (request.getParameter("concertSingerId") == null) {
+		String concertSingerId = request.getParameter("concertSingerId");
+		if (concertSingerId == null) {
 			request.setAttribute("errorMsg", "검색하려는 콘서트싱어 id값으로 null이나 공백이 입력되었습니다. 다시 입력해주세요");
 		} else {
 			try {
-				request.setAttribute("getConcertSinger", service.getConcertSinger());
+				request.setAttribute("getConcertSinger", service.getConcertSinger(concertSingerId));
 				url = "showSuccess.jsp";
 			} catch (Exception e) {
 				request.setAttribute("errMsg", e.getMessage());
@@ -381,5 +439,5 @@ private class ConcertController extends HttpServlet {
 		request.getRequestDispatcher(url).forward(request, response);
 	
 	
-
+	}
 }
