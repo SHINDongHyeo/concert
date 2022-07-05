@@ -1,0 +1,37 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+	<input type = "text" id="word" placeholder="검색어를 입력하세요." onkeyup="search(this);"><button type="button" id="btn_search">Search</button>
+	<ul id="schoolList"></ul> <!-- 검색리스트가 나타나는 영역 -->
+
+	<script>
+	
+	function search(target){
+		var word = target.value;
+		console.log(word);
+		axios.get('success.jsp'
+				
+		).then(function(reqdata){
+			console.log(reqdata);
+			console.log(reqdata.data);
+			
+		}).catch(function(errmsg){
+			console.log('발생된문제 - '+errmsg);
+		});
+	}
+
+
+
+
+</script>
+</body>
+</html>
