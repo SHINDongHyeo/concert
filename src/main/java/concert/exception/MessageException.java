@@ -1,4 +1,4 @@
-﻿package probono.exception;
+﻿package concert.exception;
 
 public class MessageException extends Exception {
 	

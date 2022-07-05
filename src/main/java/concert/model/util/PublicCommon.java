@@ -1,4 +1,4 @@
-package probono.model.util;
+package concert.model.util;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
