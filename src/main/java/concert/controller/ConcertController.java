@@ -14,9 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import concert.model.dao.ConcertService;
 import concert.model.dto.ConcertDTO;
-
 import concert.model.dto.ConcertSingerDTO;
-
 import concert.model.dto.OrdersDTO;
 import concert.model.dto.SingerDTO;
 
@@ -447,8 +445,6 @@ public class ConcertController extends HttpServlet {
 			}
 		}
 		request.getRequestDispatcher(url).forward(request, response);
-
-
 	}
 }
 
