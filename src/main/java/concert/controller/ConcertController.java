@@ -13,19 +13,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import concert.model.dao.ConcertService;
 import concert.model.dto.ConcertDTO;
-<<<<<<< HEAD
+
 import concert.model.dto.ConcertSingerDTO;
-=======
->>>>>>> 411400c7a6ec16afcd2b622ffc28cce4996503f8
+
 import concert.model.dto.OrdersDTO;
 import concert.model.dto.SingerDTO;
 
 @WebServlet("/concert")
 public class ConcertController extends HttpServlet {
-<<<<<<< HEAD
-=======
-	
->>>>>>> 411400c7a6ec16afcd2b622ffc28cce4996503f8
+
 	private static ConcertService service = ConcertService.getInstance();
 	
 	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -155,10 +151,9 @@ public class ConcertController extends HttpServlet {
 	// 콘서트 추가
 	private void addConcert(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException, ParseException {
-<<<<<<< HEAD
+
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-=======
->>>>>>> 411400c7a6ec16afcd2b622ffc28cce4996503f8
+
 		String url = "showError.jsp";
 		int id = Integer.parseInt(request.getParameter("concertId"));
 		String name = request.getParameter("concertName");
@@ -313,16 +308,13 @@ public class ConcertController extends HttpServlet {
 		//해킹등으로 불합리하게 요청도 될수 있다는 가정하에 모든 데이터가 제대로 전송이 되었는지를 검증하는 로직
 		if(id != null && id.length() !=0 && name != null) {
 		
-<<<<<<< HEAD
+
 			SingerDTO singer = SingerDTO.builder()
 										.singerId(Integer.parseInt(id))
 										.singerName(name)
 										.detail(detail)
 										.build();
-=======
-			SingerDTO singer = new SingerDTO(id, name, detail);
-			
->>>>>>> 411400c7a6ec16afcd2b622ffc28cce4996503f8
+
 			try{
 				boolean result = service.addSinger(singer);
 				if(result){
@@ -454,10 +446,7 @@ public class ConcertController extends HttpServlet {
 			}
 		}
 		request.getRequestDispatcher(url).forward(request, response);
-<<<<<<< HEAD
-	
-	
-=======
->>>>>>> 411400c7a6ec16afcd2b622ffc28cce4996503f8
+
+
 	}
 }

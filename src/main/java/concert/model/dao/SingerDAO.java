@@ -86,17 +86,17 @@ public class SingerDAO {
 		public SingerDTO getSinger(String singerId) throws SQLException {
 			EntityManager manager = PublicCommon.getEntityManager();
 			manager.getTransaction().begin();
-			SingerDTO Singer = null;
+			SingerDTO singer = null;
 
 			try {
-				Singer p = manager.find(Singer.class, singerId);
-				Singer = new SingerDTO(p.getSingerId(), p.getSingerName(), p.getDetail());
+				Singer p = manager.find(Singer.class, Integer.parseInt(singerId));
+				singer = new SingerDTO(p.getSingerId(), p.getSingerName(), p.getDetail());
 			} catch (Exception e) {
 				manager.getTransaction().rollback();
 			} finally {
 				manager.close();
 			}
-			return Singer;
+			return singer;
 		}
 		
 		//모든 가수 검색
