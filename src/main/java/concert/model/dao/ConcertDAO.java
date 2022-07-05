@@ -55,6 +55,7 @@ public class ConcertDAO {
 		} finally {
 			em.close();
 		}
+		System.out.println(allConcert);
 		return allConcert;
 	}
 	// 한 콘서트 삭제

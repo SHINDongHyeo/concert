@@ -4,4 +4,6 @@
 
 ${requestScope.getAllConcert}
 ${requestScope.getAllOrders}
+${requestScope.getAllconcertSinger}
+${requestScope.getAllSingers}
 

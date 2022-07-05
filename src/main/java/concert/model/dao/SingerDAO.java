@@ -2,14 +2,13 @@ package concert.model.dao;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 
-import org.junit.Test;
-
+import concert.model.dto.OrdersDTO;
 import concert.model.dto.SingerDTO;
+import concert.model.entity.Orders;
 import concert.model.entity.Singer;
 import concert.model.util.PublicCommon;
 
@@ -100,25 +99,24 @@ public class SingerDAO {
 		}
 		
 		//모든 가수 검색
-		@Test //ArrayList<SingerDTO>
 		public ArrayList<SingerDTO> getAllSingers() throws SQLException {
 			EntityManager em = PublicCommon.getEntityManager();
-			ArrayList<SingerDTO> alist = null;
-			List list = null;
+			ArrayList<SingerDTO> DTO = new ArrayList<SingerDTO>();
+			List<Singer> entity = null;
 			try {
-				list = em.createNativeQuery("SELECT * FROM singer").getResultList();
-				Iterator it = list.iterator();
-				while(it.hasNext()) {
-					Object[] obj = (Object[]) it.next();
-					alist.add(new SingerDTO(Integer.valueOf((String) obj[0]), String.valueOf(obj[1]), String.valueOf(obj[2])));
-					
+				entity = em.createQuery("SELECT s FROM Singer s").getResultList();
+				for(Singer s : entity) {
+					SingerDTO temp = SingerDTO.builder().singerId(s.getSingerId())
+														.singerName(s.getSingerName())
+														.detail(s.getDetail()).build();
+					DTO.add(temp);
 				}
 			} catch (Exception e) {
 				em.getTransaction().rollback();
 			} finally {
 				em.close();
 			}
-			return alist;
+			return DTO;
 		}
 }
 

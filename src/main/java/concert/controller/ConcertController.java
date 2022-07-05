@@ -1,21 +1,21 @@
 package concert.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import org.json.JSONObject;
-import org.json.JSONException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.json.JSONObject;
 
 import concert.model.dao.ConcertService;
 import concert.model.dto.ConcertDTO;
@@ -34,10 +34,14 @@ public class ConcertController extends HttpServlet {
 	// COMMAND에 따라 분류
 	protected void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
 		request.setCharacterEncoding("utf-8");
 		String command = request.getParameter("command");
 
 		switch (command) {
+		case "start":
+			start(request, response);
+			break;
 		case "getConcert":
 			getConcert(request, response);
 			break;
@@ -81,6 +85,9 @@ public class ConcertController extends HttpServlet {
 		case "getAllSingers":
 			getAllSingers(request, response);
 			break;		
+		case "getSomeConcertSinger":
+			getSomeConcertSinger(request, response);
+			break;		
 		case "getAllconcertSinger":
 			getAllconcertSinger(request, response);
 			break;
@@ -98,7 +105,20 @@ public class ConcertController extends HttpServlet {
 		}
 	}
 ///////////////////////////////////////////////////////////////////////////////////////////////
-
+	private void start(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String url = "showError.jsp";
+		try {
+			ArrayList<SingerDTO> a = service.getAllSingers();
+			request.setAttribute("singerAll", a);
+			ArrayList<ConcertDTO> b = service.getAllConcert();
+			request.setAttribute("concertAll", b);
+			url = "view.jsp";
+		}catch(Exception s){
+			request.setAttribute("errorMsg", s.getMessage());
+			s.printStackTrace();
+		}
+		request.getRequestDispatcher(url).forward(request, response);
+	}
 	/** Concert **/
 	// 한 콘서트 검색
 	private void getConcert(HttpServletRequest request, HttpServletResponse response)
@@ -125,12 +145,22 @@ public class ConcertController extends HttpServlet {
 		String url = "showError.jsp";
 		try {
 			request.setAttribute("getAllConcert", service.getAllConcert());
+			ArrayList<ConcertDTO> getAllConcert = service.getAllConcert();
 			url = "showSuccess.jsp";
+			response.setContentType("text/html;charset=UTF-8");
+			PrintWriter pw= response.getWriter();
+			JSONObject result = new JSONObject();
+			System.out.println(getAllConcert);
+			for(ConcertDTO concert:getAllConcert) {
+				result.put(Integer.toString(concert.getConcertId()), concert.getConcertName());
+			}
+			System.out.println(result);
+			System.out.println(result.getClass());
+			pw.print(result);
 		} catch (Exception e) {
 			request.setAttribute("errMsg", e.getMessage());
 			e.printStackTrace();
 		}
-		request.getRequestDispatcher(url).forward(request, response);
 	}
 
 	// 콘서트 삭제
@@ -287,14 +317,47 @@ public class ConcertController extends HttpServlet {
 	// 모든 Singer 검색 
 	private void getAllSingers(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String url = "showError.jsp";
+		System.out.println("확인용메시지");
 		try {
-			request.setAttribute("singerAll", service.getAllSingers());
-			url = "singerList.jsp";
+			ArrayList<SingerDTO> a = service.getAllSingers();
+			request.setAttribute("singerAll", a);
+			url = "showSuccess.jsp";
+			response.setContentType("text/html;charset=UTF-8");
+			PrintWriter pw= response.getWriter();
+			JSONObject result = new JSONObject();
+			System.out.println(a);
+			for(SingerDTO singer:a) {
+				result.put(Integer.toString(singer.getSingerId()), singer.getSingerName());
+			}
+			System.out.println(result);
+			System.out.println(result.getClass());
+			pw.print(result);
 		}catch(Exception s){
 			request.setAttribute("errorMsg", s.getMessage());
 			s.printStackTrace();
 		}
-		request.getRequestDispatcher(url).forward(request, response);
+	}
+	private void getSomeConcertSinger(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String url = "showError.jsp";
+		System.out.println("확인용메시지");
+		try {
+			ArrayList<SingerDTO> a = service.getSomeConcertSinger();
+			request.setAttribute("singerAll", a);
+			url = "showSuccess.jsp";
+			response.setContentType("text/html;charset=UTF-8");
+			PrintWriter pw= response.getWriter();
+			JSONObject result = new JSONObject();
+			System.out.println(a);
+			for(SingerDTO singer:a) {
+				result.put(Integer.toString(singer.getSingerId()), singer.getSingerName());
+			}
+			System.out.println(result);
+			System.out.println(result.getClass());
+			pw.print(result);
+		}catch(Exception s){
+			request.setAttribute("errorMsg", s.getMessage());
+			s.printStackTrace();
+		}
 	}
 	
 	// 한 Singer 검색 

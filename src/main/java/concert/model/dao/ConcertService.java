@@ -176,5 +176,12 @@ public class ConcertService {
 		}
 		return singers;
 	}
+	public ArrayList<SingerDTO> getSomeConcertSinger() throws SQLException,NotExistException{
+		ArrayList<SingerDTO> singers = singerDAO.getSomeConcertSinger();
+		if(singers == null){
+			throw new NotExistException("가수가 미 존재합니다.");
+		}
+		return singers;
+	}
 
 }
