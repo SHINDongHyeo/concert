@@ -1,4 +1,4 @@
-﻿package probono.controller;
+﻿package concert.controller;
 
 import java.io.IOException;
 
@@ -12,18 +12,18 @@ import concert.model.ConcertService;
 import concert.model.dto.ActivistDTO;
 import concert.model.dto.SingerDTO;
 
-@WebServlet("/probono")
-public class ProbonoFrontController extends HttpServlet {
+@WebServlet("/concert")
+public class ConcertController extends HttpServlet {
 	
-	private static ConcertService probonoService = ConcertService.getInstance();
+	private static ConcertService concertService = ConcertService.getInstance();
 	
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		String command = request.getParameter("command");
 		
 		try{
-			if(command.equals("probonoProjectAll")){//모든 probono project 정보 검색
-				probonoProjectAll(request, response);
+			if(command.equals("concertAll")){//모든 concert project 정보 검색
+				concertAll(request, response);
 			}else if(command.equals("activistAll")){//모든 재능 기부자 검색
 				activistAll(request, response);
 			}else if(command.equals("activist")){//특정 재능 기부자 정보 검색
@@ -57,12 +57,12 @@ public class ProbonoFrontController extends HttpServlet {
 	}
 	
 
-	//모두 ProbonoProject 검색 메소드
-	public void probonoProjectAll(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	//모두 Probono 검색 메소드
+	public void concertAll(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String url = "showError.jsp";
 		try {
-			request.setAttribute("probonoProjectAll", probonoService.getAllProbonoProjects());
-			url = "probonoProjectList.jsp";
+			request.setAttribute("concertAll", concertService.getAllProbonos());
+			url = "concertList.jsp";
 		}catch(Exception s){
 			request.setAttribute("errorMsg", s.getMessage());
 			s.printStackTrace();
@@ -74,7 +74,7 @@ public class ProbonoFrontController extends HttpServlet {
 	public void activistAll(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String url = "showError.jsp";
 		try {
-			request.setAttribute("activistAll", probonoService.getAllActivists());
+			request.setAttribute("activistAll", concertService.getAllActivists());
 			url = "activist/activistList.jsp";
 		}catch(Exception s){
 			request.setAttribute("errorMsg", s.getMessage());
@@ -87,7 +87,7 @@ public class ProbonoFrontController extends HttpServlet {
 	public void activist(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String url = "showError.jsp";
 		try {
-			ActivistDTO a = probonoService.getActivist(request.getParameter("activistId"));
+			ActivistDTO a = concertService.getActivist(request.getParameter("activistId"));
 			if(a != null) {
 				request.setAttribute("activist", a);
 				url = "activist/activistDetail.jsp";
@@ -116,7 +116,7 @@ public class ProbonoFrontController extends HttpServlet {
 		
 			ActivistDTO activist = new ActivistDTO(id, name, pw, major);
 			try{
-				boolean result = probonoService.addActivist(activist);
+				boolean result = concertService.addActivist(activist);
 				if(result){
 					request.setAttribute("activist", activist);
 					request.setAttribute("successMsg", "가입 완료");
@@ -135,7 +135,7 @@ public class ProbonoFrontController extends HttpServlet {
 	public void activistUpdateReq(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String url = "showError.jsp";
 		try {
-			request.setAttribute("activist", probonoService.getActivist(request.getParameter("activistId")));
+			request.setAttribute("activist", concertService.getActivist(request.getParameter("activistId")));
 			url = "activist/activistUpdate.jsp";
 		}catch(Exception s){
 			request.setAttribute("errorMsg", s.getMessage());
@@ -149,8 +149,8 @@ public class ProbonoFrontController extends HttpServlet {
 	public void activistUpdate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String url = "showError.jsp";
 		try {
-			if(probonoService.updateActivist(request.getParameter("activistId"), request.getParameter("major"))) {
-				request.setAttribute("activist", probonoService.getActivist(request.getParameter("activistId")));
+			if(concertService.updateActivist(request.getParameter("activistId"), request.getParameter("major"))) {
+				request.setAttribute("activist", concertService.getActivist(request.getParameter("activistId")));
 				url = "activist/activistDetail.jsp";
 			}else {
 				request.setAttribute("errorMsg", "저장 실패");
@@ -167,8 +167,8 @@ public class ProbonoFrontController extends HttpServlet {
 	public void activistDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String url = "showError.jsp";
 		try {
-			if(probonoService.deleteActivist(request.getParameter("activistId"))) {
-				request.setAttribute("activistAll", probonoService.getAllActivists());
+			if(concertService.deleteActivist(request.getParameter("activistId"))) {
+				request.setAttribute("activistAll", concertService.getAllActivists());
 				url = "activist/activistList.jsp";
 			}else {
 				request.setAttribute("errorMsg", "저장 실패");
@@ -185,7 +185,7 @@ public class ProbonoFrontController extends HttpServlet {
 		public void recipientAll(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 			String url = "showError.jsp";
 			try {
-				request.setAttribute("recipientAll", probonoService.getAllRecipients());
+				request.setAttribute("recipientAll", concertService.getAllRecipients());
 				url = "recipient/recipientList.jsp";
 			}catch(Exception s){
 				request.setAttribute("errorMsg", s.getMessage());
@@ -198,7 +198,7 @@ public class ProbonoFrontController extends HttpServlet {
 		public void recipient(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 			String url = "showError.jsp";
 			try {
-				SingerDTO r = probonoService.getRecipient(request.getParameter("recipientId"));
+				SingerDTO r = concertService.getRecipient(request.getParameter("recipientId"));
 				if(r != null) {
 					request.setAttribute("recipient", r);
 					url = "recipient/recipientDetail.jsp";
@@ -227,7 +227,7 @@ public class ProbonoFrontController extends HttpServlet {
 			
 			SingerDTO recipient = new SingerDTO(id, name, pw, receiveHopeContent);
 				try{
-					boolean result = probonoService.addRecipient(recipient);
+					boolean result = concertService.addRecipient(recipient);
 					if(result){
 						request.setAttribute("recipient", recipient);
 						request.setAttribute("successMsg", "가입 완료");
@@ -246,7 +246,7 @@ public class ProbonoFrontController extends HttpServlet {
 		public void recipientUpdateReq(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 			String url = "showError.jsp";
 			try {
-				request.setAttribute("recipient", probonoService.getRecipient(request.getParameter("recipientId")));
+				request.setAttribute("recipient", concertService.getRecipient(request.getParameter("recipientId")));
 				url = "recipient/recipientUpdate.jsp";
 			}catch(Exception s){
 				request.setAttribute("errorMsg", s.getMessage());
@@ -260,9 +260,9 @@ public class ProbonoFrontController extends HttpServlet {
 		public void recipientUpdate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 			String url = "showError.jsp";
 			try {
-				boolean result = probonoService.updateRecipient(request.getParameter("recipientId"), request.getParameter("receiveHopeContent"));
+				boolean result = concertService.updateRecipient(request.getParameter("recipientId"), request.getParameter("receiveHopeContent"));
 				if(result) {
-					request.setAttribute("recipient", probonoService.getRecipient(request.getParameter("recipientId")));
+					request.setAttribute("recipient", concertService.getRecipient(request.getParameter("recipientId")));
 					url = "recipient/recipientDetail.jsp";
 				}else {
 					request.setAttribute("errorMsg", "수정 실패");
@@ -279,9 +279,9 @@ public class ProbonoFrontController extends HttpServlet {
 		public void recipientDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 			String url = "showError.jsp";
 			try {
-				boolean result = probonoService.deleteRecipient(request.getParameter("recipientId"));
+				boolean result = concertService.deleteRecipient(request.getParameter("recipientId"));
 				if(result) {
-					request.setAttribute("recipientAll", probonoService.getAllRecipients());
+					request.setAttribute("recipientAll", concertService.getAllRecipients());
 					url = "recipient/recipientList.jsp";
 				}else {
 					request.setAttribute("errorMsg", "삭제 실패");

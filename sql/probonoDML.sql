@@ -54,7 +54,7 @@ insert into orders (customer_name, customer_email, amount, concert_id) values('�
 insert into orders (customer_name, customer_email, amount, concert_id) values('최이슬', 'rain@daum.net', 1, 1);
 insert into orders (customer_name, customer_email, amount, concert_id) values('황정민', 'paris@naver.com', 4, 3);
 
-SELECT * FROM Order;
+select * from orders
 
 
 commit;

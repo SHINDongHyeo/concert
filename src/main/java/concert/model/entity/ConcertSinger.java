@@ -34,7 +34,7 @@ public class ConcertSinger {
 	@Column(name = "concert_id")
 	private int concertId;
 
-	@Column(name = "concert_singer_id")
+	@Column(name = "singer_id")
 	private int singerId;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
