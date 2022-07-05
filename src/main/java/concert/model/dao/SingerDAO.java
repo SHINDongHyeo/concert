@@ -15,6 +15,14 @@ import concert.model.util.PublicCommon;
 
 public class SingerDAO {
 	
+	private static SingerDAO instance = new SingerDAO();
+
+	private SingerDAO() {
+	}
+
+	public static SingerDAO getInstance() {
+		return instance;
+	}
 	
 	//가수 저장
 	public boolean addSinger(SingerDTO Singer) throws SQLException {
