@@ -44,4 +44,24 @@ public class Orders {
 	@JoinColumn(name = "concert_id", insertable = false, updatable = false)
 	private Concert concert;
 
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Orders [orderId=");
+		builder.append(orderId);
+		builder.append(", customerName=");
+		builder.append(customerName);
+		builder.append(", customerEmail=");
+		builder.append(customerEmail);
+		builder.append(", amount=");
+		builder.append(amount);
+		builder.append(", concert_id=");
+		builder.append(concert_id);
+		builder.append("]");
+		return builder.toString();
+	}
+
+	
+	
 }
