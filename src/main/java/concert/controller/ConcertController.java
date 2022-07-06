@@ -2,6 +2,7 @@ package concert.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONObject;
 
+import concert.exception.NotExistException;
 import concert.model.dao.ConcertService;
 import concert.model.dto.ConcertDTO;
 import concert.model.dto.ConcertSingerDTO;
@@ -84,10 +86,10 @@ public class ConcertController extends HttpServlet {
 			break;
 		case "getAllSingers":
 			getAllSingers(request, response);
-			break;		
-		case "getSomeConcertSinger":
-			getSomeConcertSinger(request, response);
-			break;		
+			break;			
+		case "getSingersByConcert": /// 콘서트별가수검색용
+			getSingersByConcert(request, response);
+			break;			
 		case "getAllconcertSinger":
 			getAllconcertSinger(request, response);
 			break;
@@ -337,28 +339,6 @@ public class ConcertController extends HttpServlet {
 			s.printStackTrace();
 		}
 	}
-	private void getSomeConcertSinger(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String url = "showError.jsp";
-		System.out.println("확인용메시지");
-		try {
-			ArrayList<SingerDTO> a = service.getSomeConcertSinger();
-			request.setAttribute("singerAll", a);
-			url = "showSuccess.jsp";
-			response.setContentType("text/html;charset=UTF-8");
-			PrintWriter pw= response.getWriter();
-			JSONObject result = new JSONObject();
-			System.out.println(a);
-			for(SingerDTO singer:a) {
-				result.put(Integer.toString(singer.getSingerId()), singer.getSingerName());
-			}
-			System.out.println(result);
-			System.out.println(result.getClass());
-			pw.print(result);
-		}catch(Exception s){
-			request.setAttribute("errorMsg", s.getMessage());
-			s.printStackTrace();
-		}
-	}
 	
 	// 한 Singer 검색 
 	private void getSinger(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -452,6 +432,28 @@ public class ConcertController extends HttpServlet {
 	}
 	
 	/** ConcertSinger **/
+	// 동혁 - 추가한 메서드
+	private void getSingersByConcert(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("확인용메시지123");
+		int concertId = Integer.parseInt(request.getParameter("data"))-1;
+		response.setContentType("text/html;charset=UTF-8");
+		ArrayList<Integer> result = new ArrayList<>();;
+		StringBuilder result2 = new StringBuilder();
+		String result3 = null;
+		try {
+			result = service.getSingersByConcert(concertId);
+			System.out.println(result);		
+			} catch (SQLException | NotExistException e) {
+			e.printStackTrace();
+		}
+		for (Integer i: result) {
+			result2.append(i);
+		}
+		result3 = result2.toString();
+		PrintWriter pw= response.getWriter();
+		pw.print(result3);
+	}
+	
 	// 모든 콘서트싱어 검색
 	private void getAllconcertSinger(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

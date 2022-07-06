@@ -41,7 +41,7 @@ public class ConcertDAO {
 //	format.parse((String)obj[3])
 	public ArrayList<ConcertDTO> getAllConcert() throws SQLException {
 		EntityManager em = PublicCommon.getEntityManager();
-		em.getTransaction().begin();
+//		em.getTransaction().begin();
 		List<Concert> a = null;
 		ArrayList<ConcertDTO> allConcert = new ArrayList<>();
 		try {
@@ -51,7 +51,8 @@ public class ConcertDAO {
 				allConcert.add(modelMapper.map(aaa, ConcertDTO.class));
 			}
 		} catch (Exception e) {
-			em.getTransaction().rollback();
+//			em.getTransaction().rollback();
+			e.printStackTrace();
 		} finally {
 			em.close();
 		}

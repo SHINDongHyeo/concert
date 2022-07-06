@@ -118,5 +118,25 @@ public class SingerDAO {
 			}
 			return DTO;
 		}
+
+		public ArrayList<SingerDTO> getSomeConcertSinger() {
+			EntityManager em = PublicCommon.getEntityManager();
+			ArrayList<SingerDTO> DTO = new ArrayList<SingerDTO>();
+			List<Singer> entity = null;
+			try {
+				entity = em.createQuery("SELECT s FROM Singer s").getResultList();
+				for(Singer s : entity) {
+					SingerDTO temp = SingerDTO.builder().singerId(s.getSingerId())
+														.singerName(s.getSingerName())
+														.detail(s.getDetail()).build();
+					DTO.add(temp);
+				}
+			} catch (Exception e) {
+				em.getTransaction().rollback();
+			} finally {
+				em.close();
+			}
+			return DTO;
+		}
 }
 

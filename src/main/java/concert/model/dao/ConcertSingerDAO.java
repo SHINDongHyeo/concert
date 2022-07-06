@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
+import org.junit.Test;
 import org.modelmapper.ModelMapper;
 
 import concert.model.dto.ConcertSingerDTO;
@@ -106,6 +107,63 @@ public class ConcertSingerDAO {
 		}
 		return concertSinger;
 	}
+	
+//	@Test
+//	public void test() {
+//		System.out.println("테스트용");
+//		int concertId = 1;
+//		EntityManager em = PublicCommon.getEntityManager();
+//		em.getTransaction().begin();
+//		ArrayList<Integer> result2 = new ArrayList<Integer>();
+//		List<ConcertSinger> result = null;
+//		try {
+//			System.out.println("쿼리문실행");
+//			result = em.createQuery("select cs from ConcertSinger cs where "
+//					+ "cs.concertId=:concertId").setParameter("concertId", concertId)
+//					.getResultList();
+//			System.out.println("쿼리문실행완료");
+//			System.out.println(result);
+//			for(ConcertSinger i:result) {
+//				result2.add(i.getConcertId());			
+//			}
+//			System.out.println(result2);
+//		} catch (Exception e) {
+//			em.getTransaction().rollback();
+//			e.printStackTrace();
+//			System.out.println("예외처리발생");
+//		} finally {
+//			em.close();
+//			System.out.println("em종료");
+//		}
+//	}
+	
+	public ArrayList<Integer> getSingersByConcert(int concertId) throws SQLException{
+		EntityManager em = PublicCommon.getEntityManager();
+//		em.getTransaction().begin();
+		ArrayList<Integer> result2 = new ArrayList<Integer>();
+		List<ConcertSinger> result = null;
+		try {
+			System.out.println("쿼리문실행");
+			result = em.createQuery("select cs from ConcertSinger cs where "
+					+ "cs.concertId=:concertId").setParameter("concertId", concertId)
+					.getResultList();
+			System.out.println("쿼리문실행완료");
+			System.out.println(result);
+			for(ConcertSinger i:result) {
+				result2.add(i.getSingerId());			
+			}
+			System.out.println(result2);
+		} catch (Exception e) {
+//			em.getTransaction().rollback();
+			e.printStackTrace();
+			System.out.println("예외처리발생");
+		} finally {
+			em.close();
+			System.out.println("em종료");
+		}
+		return result2;
+	}
+
 	
 //	public static boolean updateConcertSinger(String activistId, String major) throws SQLException{
 //		EntityManager em = PublicCommon.getEntityManager();

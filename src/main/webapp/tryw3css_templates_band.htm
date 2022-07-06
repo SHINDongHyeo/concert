@@ -329,28 +329,84 @@ body {
 				}
 			}
 
-			loadAllSinger();
+			var count = 0;
+			var jsonConcert = null;
+			var concertCount = null;
+			var jsonSinger = null;
 			function loadAllSinger() {
-				console.log("전체가수로드");
-				let count = 0;
 				console.log(count);
 				const xhttp = new XMLHttpRequest();
+
 				xhttp.onload = function() {
-					let res_data = this.responseText;
-					let jsonSinger = JSON.parse(res_data);
-					let imageBox = document.getElementById("showAllSinger");
-					imageBox.innerHTML = "<h2>전체가수</h2><br>";
-					for (i in jsonSinger) {
-						let singerName = jsonSinger[i];
-						imageBox.innerHTML += `<div class="w3-third"><p>${singerName}</p><img src="images/${i}_${singerName}.jpg" class="w3-round w3-margin-bottom" alt="Random Name" style="width:30%"></div>`;
+					if (xhttp.status == 200) {
+						if (count == 0) {
+							console.log("0번");
+							let res_data = this.responseText;
+							console.log(res_data);
+							jsonConcert = JSON.parse(res_data);
+							concertCount = Object.keys(jsonConcert).length;
+							let imageBox = document
+									.getElementById("showAllSinger");
+							imageBox.innerHTML = "<h2>콘서트 라인업이 궁금하신가요?</h2><br>";
+						} else if (count == 1) {
+							console.log("1번");
+							let res_data = this.responseText;
+							jsonSinger = JSON.parse(res_data);
+							let imageBox = document
+									.getElementById("showAllSinger");
+							imageBox.innerHTML = "<h2>전체가수</h2><br>";
+							for (i in jsonSinger) {
+								console.log("확인용@");
+								let singerName = jsonSinger[i];
+								imageBox.innerHTML += `<div class="w3-third"><p>${singerName}</p><img src="images/가수${i}_${singerName}.jpg" class="w3-round w3-margin-bottom" alt="Random Name" style="width:30%"></div>`;
+							}
+						} else if (count <= concertCount + 1) {
+							let res_data = this.responseText;
+							let imageBox = document.getElementById("showAllSinger");
+							let num = count-1;
+							imageBox.innerHTML = `<h2>콘서트${num} 가수</h2><br>`;
+							console.log(res_data);
+							for (i in res_data){
+								console.log("확인용%");
+								let singerId = res_data[i];
+								console.log(singerId);
+								let singerName = jsonSinger[singerId];
+								imageBox.innerHTML += `<div class="w3-third"><p>${singerName}</p><img src="images/가수${singerId}_${singerName}.jpg" class="w3-round w3-margin-bottom" alt="Random Name" style="width:30%"></div>`;
+							}
+							
+						}
+
+						count += 1;
+						if (count >= concertCount + 2) {
+							count = 0;
+						}
+					}else{
+						console.log("통신대기중..");
 					}
 				}
-				xhttp.open("get", "concert?command=getAllSingers", true);
-				xhttp.setRequestHeader("Content-type",
-						"application/x-www-form-urlencoded;charset=UTF-8");
-				xhttp.send();
+
+				///////////////////////////////////////////////////////////////
+				if (count == 0) {
+					console.log("count0 servlet으로 모든가수 요청");
+					xhttp.open("get", "concert?command=getAllConcert", true);
+					xhttp.setRequestHeader("Content-type",
+							"application/x-www-form-urlencoded;charset=UTF-8");
+					xhttp.send();
+				} else if (count == 1) {
+					xhttp.open("get", "concert?command=getAllSingers", true);
+					xhttp.setRequestHeader("Content-type",
+							"application/x-www-form-urlencoded;charset=UTF-8");
+					xhttp.send();
+				} else if (count <= concertCount + 1) {
+					xhttp.open("get", `concert?command=getSingersByConcert&data=${count}`,
+							true);
+					xhttp.setRequestHeader("Content-type",
+							"application/x-www-form-urlencoded;charset=UTF-8");
+					xhttp.send();
+				}
+
 			}
-			setInterval(loadAllSinger(), 3000);
+			let interval = setInterval(loadAllSinger, 3000);
 		</script>
 </body>
 </html>
