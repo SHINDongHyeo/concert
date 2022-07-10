@@ -334,7 +334,7 @@ body {
 			var concertCount = null;
 			var jsonSinger = null;
 			function loadAllSinger() {
-				console.log(count);
+				console.log("카운트 : "+count);
 				const xhttp = new XMLHttpRequest();
 
 				xhttp.onload = function() {
@@ -361,6 +361,7 @@ body {
 								imageBox.innerHTML += `<div class="w3-third"><p>${singerName}</p><img src="images/가수${i}_${singerName}.jpg" class="w3-round w3-margin-bottom" alt="Random Name" style="width:30%"></div>`;
 							}
 						} else if (count <= concertCount + 1) {
+							console.log("0,1번아님");
 							let res_data = this.responseText;
 							let imageBox = document.getElementById("showAllSinger");
 							let num = count-1;
@@ -387,7 +388,6 @@ body {
 
 				///////////////////////////////////////////////////////////////
 				if (count == 0) {
-					console.log("count0 servlet으로 모든가수 요청");
 					xhttp.open("get", "concert?command=getAllConcert", true);
 					xhttp.setRequestHeader("Content-type",
 							"application/x-www-form-urlencoded;charset=UTF-8");
